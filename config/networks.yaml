@@ -1,0 +1,1935 @@
+# DiagNet — Network Configuration
+# 5 networks · 59 facilities · NTEP-representative baselines
+# Edit baselines and thresholds here; no code changes needed.
+# Pydantic schema validation runs at generation time (Story 2.3).
+
+networks:
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # NET-A · District Hospital Chandrapur · CBNAAT Hub (GeneXpert × 3)
+  # 14 facilities: 1 hub + 3 Truenat + 4 Microscopy + 6 CHC
+  # Challenge: DHC overwhelmed by referral volume (bottleneck scenario SC-01)
+  # ─────────────────────────────────────────────────────────────────────────
+  NET-A:
+    display_name: "District Hospital Chandrapur"
+    hub_type: CBNAAT
+    facilities:
+
+      DHC-A:
+        display_name: "District Hospital Chandrapur"
+        type: hub
+        x: 0.50
+        y: 0.55
+        baseline:
+          patients_queued: 42
+          cartridges: 120
+          truenat_chips: 0
+          travel_time_min: 0
+          tat_hours: 18
+          hr_on_shift: 8
+          machines: 3
+          modules: 6
+          samples_per_module_per_day: 28
+          daily_consumption: 8
+          smear_positivity_rate: 0.18
+          specimen_rejection_rate: 0.06
+          referral_completion_rate: 0.88
+          chw_available: 4
+          bayesian_stockout_prob: 0.12
+          cascade_dropout_risk: 0.08
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          cartridges: { warn: 25, critical: 10 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          modules: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      TL1-A:
+        display_name: "Truenat Lab Chandrapur East"
+        type: truenat
+        x: 0.72
+        y: 0.68
+        baseline:
+          patients_queued: 16
+          cartridges: 0
+          truenat_chips: 24
+          travel_time_min: 45
+          tat_hours: 12
+          hr_on_shift: 4
+          machines: 2
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 4
+          smear_positivity_rate: 0.15
+          specimen_rejection_rate: 0.07
+          referral_completion_rate: 0.82
+          chw_available: 2
+          bayesian_stockout_prob: 0.18
+          cascade_dropout_risk: 0.12
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          truenat_chips: { warn: 15, critical: 5 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      TL2-A:
+        display_name: "Truenat Lab Chandrapur West"
+        type: truenat
+        x: 0.28
+        y: 0.68
+        baseline:
+          patients_queued: 14
+          cartridges: 0
+          truenat_chips: 26
+          travel_time_min: 50
+          tat_hours: 11
+          hr_on_shift: 4
+          machines: 2
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 4
+          smear_positivity_rate: 0.14
+          specimen_rejection_rate: 0.08
+          referral_completion_rate: 0.80
+          chw_available: 2
+          bayesian_stockout_prob: 0.15
+          cascade_dropout_risk: 0.11
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          truenat_chips: { warn: 15, critical: 5 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      TL3-A:
+        display_name: "Truenat Lab Chandrapur Central"
+        type: truenat
+        x: 0.50
+        y: 0.75
+        baseline:
+          patients_queued: 12
+          cartridges: 0
+          truenat_chips: 22
+          travel_time_min: 40
+          tat_hours: 10
+          hr_on_shift: 3
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 3
+          smear_positivity_rate: 0.13
+          specimen_rejection_rate: 0.09
+          referral_completion_rate: 0.79
+          chw_available: 2
+          bayesian_stockout_prob: 0.16
+          cascade_dropout_risk: 0.10
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          truenat_chips: { warn: 15, critical: 5 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC1-A:
+        display_name: "Microscopy Centre Chandrapur NE"
+        type: microscopy
+        x: 0.80
+        y: 0.82
+        baseline:
+          patients_queued: 10
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 40
+          tat_hours: 7
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.17
+          specimen_rejection_rate: 0.09
+          referral_completion_rate: 0.76
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.15
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC2-A:
+        display_name: "Microscopy Centre Chandrapur SE"
+        type: microscopy
+        x: 0.68
+        y: 0.88
+        baseline:
+          patients_queued: 9
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 35
+          tat_hours: 6
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.16
+          specimen_rejection_rate: 0.10
+          referral_completion_rate: 0.74
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.16
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC3-A:
+        display_name: "Microscopy Centre Chandrapur NW"
+        type: microscopy
+        x: 0.32
+        y: 0.82
+        baseline:
+          patients_queued: 11
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 45
+          tat_hours: 7
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.18
+          specimen_rejection_rate: 0.08
+          referral_completion_rate: 0.77
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.14
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC4-A:
+        display_name: "Microscopy Centre Chandrapur SW"
+        type: microscopy
+        x: 0.20
+        y: 0.88
+        baseline:
+          patients_queued: 8
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 30
+          tat_hours: 6
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.15
+          specimen_rejection_rate: 0.11
+          referral_completion_rate: 0.73
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.17
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC1-A:
+        display_name: "CHC Chandrapur East-1"
+        type: chc
+        x: 0.92
+        y: 0.90
+        baseline:
+          patients_queued: 6
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 60
+          tat_hours: 3
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.14
+          referral_completion_rate: 0.70
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.22
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC2-A:
+        display_name: "CHC Chandrapur East-2"
+        type: chc
+        x: 0.88
+        y: 0.96
+        baseline:
+          patients_queued: 5
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 45
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.15
+          referral_completion_rate: 0.68
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.24
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC3-A:
+        display_name: "CHC Chandrapur South-1"
+        type: chc
+        x: 0.72
+        y: 0.96
+        baseline:
+          patients_queued: 7
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 55
+          tat_hours: 3
+          hr_on_shift: 2
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.12
+          referral_completion_rate: 0.72
+          chw_available: 2
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.20
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC4-A:
+        display_name: "CHC Chandrapur South-2"
+        type: chc
+        x: 0.58
+        y: 0.96
+        baseline:
+          patients_queued: 5
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 50
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.13
+          referral_completion_rate: 0.71
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.21
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC5-A:
+        display_name: "CHC Chandrapur West-1"
+        type: chc
+        x: 0.22
+        y: 0.96
+        baseline:
+          patients_queued: 6
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 65
+          tat_hours: 3
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.16
+          referral_completion_rate: 0.67
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.25
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC6-A:
+        display_name: "CHC Chandrapur West-2"
+        type: chc
+        x: 0.08
+        y: 0.90
+        baseline:
+          patients_queued: 4
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 70
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.17
+          referral_completion_rate: 0.65
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.26
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+    links:
+      - [CHC1-A, MC1-A, 60]
+      - [CHC2-A, MC1-A, 45]
+      - [CHC3-A, MC2-A, 55]
+      - [CHC4-A, MC2-A, 50]
+      - [CHC5-A, MC3-A, 65]
+      - [CHC6-A, MC4-A, 70]
+      - [MC1-A, TL1-A, 40]
+      - [MC2-A, TL1-A, 35]
+      - [MC3-A, TL2-A, 45]
+      - [MC4-A, TL3-A, 30]
+      - [TL1-A, DHC-A, 45]
+      - [TL2-A, DHC-A, 50]
+      - [TL3-A, DHC-A, 40]
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # NET-B · Truenat Hub Balaghat · Truenat Hub (Truenat × 4)
+  # 11 facilities: 1 hub + 2 Truenat + 3 Microscopy + 5 CHC
+  # Challenge: Cartridge/chip drain under campaign surge (SC-02, SC-07)
+  # ─────────────────────────────────────────────────────────────────────────
+  NET-B:
+    display_name: "Truenat Hub Balaghat"
+    hub_type: Truenat
+    facilities:
+
+      TH-B:
+        display_name: "Truenat Hub Balaghat"
+        type: hub
+        x: 0.50
+        y: 0.50
+        baseline:
+          patients_queued: 28
+          cartridges: 0
+          truenat_chips: 32
+          travel_time_min: 0
+          tat_hours: 14
+          hr_on_shift: 6
+          machines: 4
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 6
+          smear_positivity_rate: 0.16
+          specimen_rejection_rate: 0.07
+          referral_completion_rate: 0.84
+          chw_available: 3
+          bayesian_stockout_prob: 0.20
+          cascade_dropout_risk: 0.10
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          truenat_chips: { warn: 15, critical: 5 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      TL1-B:
+        display_name: "Truenat Lab Balaghat North"
+        type: truenat
+        x: 0.65
+        y: 0.65
+        baseline:
+          patients_queued: 14
+          cartridges: 0
+          truenat_chips: 20
+          travel_time_min: 38
+          tat_hours: 11
+          hr_on_shift: 3
+          machines: 2
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 4
+          smear_positivity_rate: 0.14
+          specimen_rejection_rate: 0.08
+          referral_completion_rate: 0.79
+          chw_available: 2
+          bayesian_stockout_prob: 0.22
+          cascade_dropout_risk: 0.13
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          truenat_chips: { warn: 15, critical: 5 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      TL2-B:
+        display_name: "Truenat Lab Balaghat South"
+        type: truenat
+        x: 0.35
+        y: 0.65
+        baseline:
+          patients_queued: 12
+          cartridges: 0
+          truenat_chips: 22
+          travel_time_min: 42
+          tat_hours: 12
+          hr_on_shift: 3
+          machines: 2
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 3
+          smear_positivity_rate: 0.13
+          specimen_rejection_rate: 0.09
+          referral_completion_rate: 0.78
+          chw_available: 2
+          bayesian_stockout_prob: 0.19
+          cascade_dropout_risk: 0.12
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          truenat_chips: { warn: 15, critical: 5 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC1-B:
+        display_name: "Microscopy Centre Balaghat North"
+        type: microscopy
+        x: 0.72
+        y: 0.80
+        baseline:
+          patients_queued: 9
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 38
+          tat_hours: 6
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.16
+          specimen_rejection_rate: 0.10
+          referral_completion_rate: 0.74
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.18
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC2-B:
+        display_name: "Microscopy Centre Balaghat Central"
+        type: microscopy
+        x: 0.50
+        y: 0.78
+        baseline:
+          patients_queued: 8
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 32
+          tat_hours: 5
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.15
+          specimen_rejection_rate: 0.11
+          referral_completion_rate: 0.73
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.19
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC3-B:
+        display_name: "Microscopy Centre Balaghat South"
+        type: microscopy
+        x: 0.28
+        y: 0.80
+        baseline:
+          patients_queued: 7
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 42
+          tat_hours: 6
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.14
+          specimen_rejection_rate: 0.12
+          referral_completion_rate: 0.72
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.20
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC1-B:
+        display_name: "CHC Balaghat North-1"
+        type: chc
+        x: 0.82
+        y: 0.90
+        baseline:
+          patients_queued: 5
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 38
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.14
+          referral_completion_rate: 0.70
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.22
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC2-B:
+        display_name: "CHC Balaghat North-2"
+        type: chc
+        x: 0.60
+        y: 0.92
+        baseline:
+          patients_queued: 4
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 32
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.15
+          referral_completion_rate: 0.69
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.23
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC3-B:
+        display_name: "CHC Balaghat Central"
+        type: chc
+        x: 0.42
+        y: 0.92
+        baseline:
+          patients_queued: 5
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 28
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.13
+          referral_completion_rate: 0.71
+          chw_available: 2
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.21
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC4-B:
+        display_name: "CHC Balaghat South-1"
+        type: chc
+        x: 0.22
+        y: 0.92
+        baseline:
+          patients_queued: 4
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 42
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.16
+          referral_completion_rate: 0.67
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.24
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC5-B:
+        display_name: "CHC Balaghat South-2"
+        type: chc
+        x: 0.10
+        y: 0.85
+        baseline:
+          patients_queued: 3
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 48
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.17
+          referral_completion_rate: 0.65
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.26
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+    links:
+      - [CHC1-B, MC1-B, 38]
+      - [CHC2-B, MC2-B, 32]
+      - [CHC3-B, MC2-B, 28]
+      - [CHC4-B, MC3-B, 42]
+      - [CHC5-B, MC3-B, 48]
+      - [MC1-B, TL1-B, 35]
+      - [MC2-B, TL1-B, 30]
+      - [MC3-B, TL2-B, 38]
+      - [TL1-B, TH-B, 38]
+      - [TL2-B, TH-B, 42]
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # NET-C · District Hospital Yavatmal · CBNAAT Hub (GeneXpert × 2)
+  # 13 facilities: 1 hub + 2 Truenat + 4 Microscopy + 6 CHC
+  # Challenge: Predicted stockout — Bayesian 14-day forecast (SC-03)
+  # ─────────────────────────────────────────────────────────────────────────
+  NET-C:
+    display_name: "District Hospital Yavatmal"
+    hub_type: CBNAAT
+    facilities:
+
+      DHC-C:
+        display_name: "District Hospital Yavatmal"
+        type: hub
+        x: 0.50
+        y: 0.50
+        baseline:
+          patients_queued: 35
+          cartridges: 85
+          truenat_chips: 0
+          travel_time_min: 0
+          tat_hours: 20
+          hr_on_shift: 6
+          machines: 2
+          modules: 4
+          samples_per_module_per_day: 22
+          daily_consumption: 7
+          smear_positivity_rate: 0.20
+          specimen_rejection_rate: 0.07
+          referral_completion_rate: 0.82
+          chw_available: 3
+          bayesian_stockout_prob: 0.28
+          cascade_dropout_risk: 0.12
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          cartridges: { warn: 25, critical: 10 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          modules: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      TL1-C:
+        display_name: "Truenat Lab Yavatmal North"
+        type: truenat
+        x: 0.68
+        y: 0.65
+        baseline:
+          patients_queued: 13
+          cartridges: 0
+          truenat_chips: 19
+          travel_time_min: 52
+          tat_hours: 13
+          hr_on_shift: 3
+          machines: 2
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 3
+          smear_positivity_rate: 0.17
+          specimen_rejection_rate: 0.09
+          referral_completion_rate: 0.77
+          chw_available: 2
+          bayesian_stockout_prob: 0.24
+          cascade_dropout_risk: 0.15
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          truenat_chips: { warn: 15, critical: 5 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      TL2-C:
+        display_name: "Truenat Lab Yavatmal South"
+        type: truenat
+        x: 0.32
+        y: 0.65
+        baseline:
+          patients_queued: 11
+          cartridges: 0
+          truenat_chips: 21
+          travel_time_min: 58
+          tat_hours: 12
+          hr_on_shift: 3
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 3
+          smear_positivity_rate: 0.16
+          specimen_rejection_rate: 0.10
+          referral_completion_rate: 0.76
+          chw_available: 2
+          bayesian_stockout_prob: 0.22
+          cascade_dropout_risk: 0.14
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          truenat_chips: { warn: 15, critical: 5 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC1-C:
+        display_name: "Microscopy Centre Yavatmal NE"
+        type: microscopy
+        x: 0.78
+        y: 0.78
+        baseline:
+          patients_queued: 8
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 52
+          tat_hours: 7
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.19
+          specimen_rejection_rate: 0.11
+          referral_completion_rate: 0.73
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.20
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC2-C:
+        display_name: "Microscopy Centre Yavatmal NW"
+        type: microscopy
+        x: 0.22
+        y: 0.78
+        baseline:
+          patients_queued: 7
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 58
+          tat_hours: 7
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.18
+          specimen_rejection_rate: 0.12
+          referral_completion_rate: 0.72
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.21
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC3-C:
+        display_name: "Microscopy Centre Yavatmal SE"
+        type: microscopy
+        x: 0.70
+        y: 0.88
+        baseline:
+          patients_queued: 9
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 60
+          tat_hours: 8
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.20
+          specimen_rejection_rate: 0.10
+          referral_completion_rate: 0.74
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.19
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC4-C:
+        display_name: "Microscopy Centre Yavatmal SW"
+        type: microscopy
+        x: 0.30
+        y: 0.88
+        baseline:
+          patients_queued: 6
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 62
+          tat_hours: 6
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.17
+          specimen_rejection_rate: 0.13
+          referral_completion_rate: 0.71
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.22
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC1-C:
+        display_name: "CHC Yavatmal East-1"
+        type: chc
+        x: 0.90
+        y: 0.85
+        baseline:
+          patients_queued: 5
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 78
+          tat_hours: 3
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.15
+          referral_completion_rate: 0.68
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.26
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC2-C:
+        display_name: "CHC Yavatmal East-2"
+        type: chc
+        x: 0.85
+        y: 0.94
+        baseline:
+          patients_queued: 4
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 82
+          tat_hours: 3
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.16
+          referral_completion_rate: 0.66
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.28
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC3-C:
+        display_name: "CHC Yavatmal South-1"
+        type: chc
+        x: 0.62
+        y: 0.96
+        baseline:
+          patients_queued: 5
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 60
+          tat_hours: 3
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.14
+          referral_completion_rate: 0.69
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.25
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC4-C:
+        display_name: "CHC Yavatmal South-2"
+        type: chc
+        x: 0.38
+        y: 0.96
+        baseline:
+          patients_queued: 4
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 62
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.15
+          referral_completion_rate: 0.67
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.27
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC5-C:
+        display_name: "CHC Yavatmal West-1"
+        type: chc
+        x: 0.15
+        y: 0.85
+        baseline:
+          patients_queued: 6
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 80
+          tat_hours: 3
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.17
+          referral_completion_rate: 0.65
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.29
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC6-C:
+        display_name: "CHC Yavatmal West-2"
+        type: chc
+        x: 0.10
+        y: 0.94
+        baseline:
+          patients_queued: 3
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 90
+          tat_hours: 3
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.18
+          referral_completion_rate: 0.62
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.31
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+    links:
+      - [CHC1-C, MC1-C, 78]
+      - [CHC2-C, MC1-C, 82]
+      - [CHC3-C, MC3-C, 60]
+      - [CHC4-C, MC4-C, 62]
+      - [CHC5-C, MC2-C, 80]
+      - [CHC6-C, MC2-C, 90]
+      - [MC1-C, TL1-C, 52]
+      - [MC2-C, TL2-C, 58]
+      - [MC3-C, TL1-C, 45]
+      - [MC4-C, TL2-C, 50]
+      - [TL1-C, DHC-C, 52]
+      - [TL2-C, DHC-C, 58]
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # NET-D · Truenat Hub Gadchiroli · Truenat Hub (Truenat × 2)
+  # 9 facilities: 1 hub + 1 Truenat + 2 Microscopy + 5 CHC
+  # Challenge: Tribal/remote, cascade failure, inter-network overflow (SC-04)
+  # ─────────────────────────────────────────────────────────────────────────
+  NET-D:
+    display_name: "Truenat Hub Gadchiroli"
+    hub_type: Truenat
+    facilities:
+
+      DHC-D:
+        display_name: "Truenat Hub Gadchiroli"
+        type: hub
+        x: 0.50
+        y: 0.45
+        baseline:
+          patients_queued: 22
+          cartridges: 0
+          truenat_chips: 28
+          travel_time_min: 0
+          tat_hours: 16
+          hr_on_shift: 4
+          machines: 2
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 5
+          smear_positivity_rate: 0.22
+          specimen_rejection_rate: 0.09
+          referral_completion_rate: 0.72
+          chw_available: 3
+          bayesian_stockout_prob: 0.25
+          cascade_dropout_risk: 0.18
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          truenat_chips: { warn: 15, critical: 5 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      TL1-D:
+        display_name: "Truenat Lab Gadchiroli North"
+        type: truenat
+        x: 0.55
+        y: 0.65
+        baseline:
+          patients_queued: 10
+          cartridges: 0
+          truenat_chips: 16
+          travel_time_min: 72
+          tat_hours: 14
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 3
+          smear_positivity_rate: 0.20
+          specimen_rejection_rate: 0.12
+          referral_completion_rate: 0.68
+          chw_available: 2
+          bayesian_stockout_prob: 0.30
+          cascade_dropout_risk: 0.22
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          truenat_chips: { warn: 15, critical: 5 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC1-D:
+        display_name: "Microscopy Centre Gadchiroli East"
+        type: microscopy
+        x: 0.70
+        y: 0.80
+        baseline:
+          patients_queued: 7
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 85
+          tat_hours: 8
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.22
+          specimen_rejection_rate: 0.14
+          referral_completion_rate: 0.68
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.28
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC2-D:
+        display_name: "Microscopy Centre Gadchiroli West"
+        type: microscopy
+        x: 0.30
+        y: 0.80
+        baseline:
+          patients_queued: 6
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 90
+          tat_hours: 8
+          hr_on_shift: 1
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.21
+          specimen_rejection_rate: 0.15
+          referral_completion_rate: 0.65
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.30
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC1-D:
+        display_name: "CHC Gadchiroli North"
+        type: chc
+        x: 0.75
+        y: 0.90
+        baseline:
+          patients_queued: 4
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 95
+          tat_hours: 3
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.18
+          referral_completion_rate: 0.58
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.35
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC2-D:
+        display_name: "CHC Gadchiroli East"
+        type: chc
+        x: 0.85
+        y: 0.78
+        baseline:
+          patients_queued: 3
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 110
+          tat_hours: 4
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.20
+          referral_completion_rate: 0.55
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.38
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC3-D:
+        display_name: "CHC Gadchiroli South"
+        type: chc
+        x: 0.55
+        y: 0.96
+        baseline:
+          patients_queued: 4
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 100
+          tat_hours: 3
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.19
+          referral_completion_rate: 0.57
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.36
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC4-D:
+        display_name: "CHC Gadchiroli West"
+        type: chc
+        x: 0.15
+        y: 0.90
+        baseline:
+          patients_queued: 3
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 105
+          tat_hours: 4
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.21
+          referral_completion_rate: 0.54
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.40
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC5-D:
+        display_name: "CHC Gadchiroli Deep Forest"
+        type: chc
+        x: 0.20
+        y: 0.78
+        baseline:
+          patients_queued: 2
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 130
+          tat_hours: 4
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.22
+          referral_completion_rate: 0.50
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.44
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+    links:
+      - [CHC1-D, MC1-D, 95]
+      - [CHC2-D, MC1-D, 110]
+      - [CHC3-D, MC1-D, 100]
+      - [CHC4-D, MC2-D, 105]
+      - [CHC5-D, MC2-D, 130]
+      - [MC1-D, TL1-D, 72]
+      - [MC2-D, TL1-D, 80]
+      - [TL1-D, DHC-D, 72]
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # NET-E · District Hospital Amravati · CBNAAT Hub + Culture Lab
+  # 12 facilities: 1 hub + 2 Truenat + 3 Microscopy + 6 CHC
+  # Challenge: Multi-failure — stockout + bottleneck concurrent (SC-05)
+  # ─────────────────────────────────────────────────────────────────────────
+  NET-E:
+    display_name: "District Hospital Amravati"
+    hub_type: CBNAAT_Culture
+    facilities:
+
+      DHC-E:
+        display_name: "District Hospital Amravati"
+        type: hub
+        x: 0.50
+        y: 0.50
+        baseline:
+          patients_queued: 38
+          cartridges: 95
+          truenat_chips: 0
+          travel_time_min: 0
+          tat_hours: 19
+          hr_on_shift: 7
+          machines: 3
+          modules: 5
+          samples_per_module_per_day: 24
+          daily_consumption: 7
+          smear_positivity_rate: 0.17
+          specimen_rejection_rate: 0.07
+          referral_completion_rate: 0.86
+          chw_available: 3
+          bayesian_stockout_prob: 0.22
+          cascade_dropout_risk: 0.10
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          cartridges: { warn: 25, critical: 10 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          modules: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      TL1-E:
+        display_name: "Truenat Lab Amravati North"
+        type: truenat
+        x: 0.67
+        y: 0.65
+        baseline:
+          patients_queued: 15
+          cartridges: 0
+          truenat_chips: 21
+          travel_time_min: 42
+          tat_hours: 12
+          hr_on_shift: 3
+          machines: 2
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 4
+          smear_positivity_rate: 0.15
+          specimen_rejection_rate: 0.08
+          referral_completion_rate: 0.81
+          chw_available: 2
+          bayesian_stockout_prob: 0.20
+          cascade_dropout_risk: 0.12
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          truenat_chips: { warn: 15, critical: 5 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      TL2-E:
+        display_name: "Truenat Lab Amravati South"
+        type: truenat
+        x: 0.33
+        y: 0.65
+        baseline:
+          patients_queued: 13
+          cartridges: 0
+          truenat_chips: 23
+          travel_time_min: 46
+          tat_hours: 11
+          hr_on_shift: 3
+          machines: 2
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 3
+          smear_positivity_rate: 0.14
+          specimen_rejection_rate: 0.09
+          referral_completion_rate: 0.80
+          chw_available: 2
+          bayesian_stockout_prob: 0.18
+          cascade_dropout_risk: 0.11
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          truenat_chips: { warn: 15, critical: 5 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          bayesian_stockout_prob: { warn: 0.40, critical: 0.70 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC1-E:
+        display_name: "Microscopy Centre Amravati North"
+        type: microscopy
+        x: 0.75
+        y: 0.78
+        baseline:
+          patients_queued: 9
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 42
+          tat_hours: 7
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.16
+          specimen_rejection_rate: 0.09
+          referral_completion_rate: 0.76
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.17
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC2-E:
+        display_name: "Microscopy Centre Amravati Central"
+        type: microscopy
+        x: 0.50
+        y: 0.75
+        baseline:
+          patients_queued: 8
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 38
+          tat_hours: 6
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.15
+          specimen_rejection_rate: 0.10
+          referral_completion_rate: 0.75
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.18
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      MC3-E:
+        display_name: "Microscopy Centre Amravati South"
+        type: microscopy
+        x: 0.25
+        y: 0.78
+        baseline:
+          patients_queued: 7
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 46
+          tat_hours: 7
+          hr_on_shift: 2
+          machines: 1
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.16
+          specimen_rejection_rate: 0.11
+          referral_completion_rate: 0.74
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.19
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          tat_hours: { warn: 24, critical: 36 }
+          hr_on_shift: { warn: 2, critical: 1 }
+          smear_positivity_rate: { warn: 0.25, critical: 0.40 }
+          specimen_rejection_rate: { warn: 0.15, critical: 0.30 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC1-E:
+        display_name: "CHC Amravati NE-1"
+        type: chc
+        x: 0.88
+        y: 0.86
+        baseline:
+          patients_queued: 6
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 55
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.13
+          referral_completion_rate: 0.72
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.20
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC2-E:
+        display_name: "CHC Amravati NE-2"
+        type: chc
+        x: 0.82
+        y: 0.94
+        baseline:
+          patients_queued: 5
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 60
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.14
+          referral_completion_rate: 0.70
+          chw_available: 2
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.21
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC3-E:
+        display_name: "CHC Amravati South-1"
+        type: chc
+        x: 0.62
+        y: 0.94
+        baseline:
+          patients_queued: 6
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 52
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.13
+          referral_completion_rate: 0.71
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.21
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC4-E:
+        display_name: "CHC Amravati South-2"
+        type: chc
+        x: 0.38
+        y: 0.94
+        baseline:
+          patients_queued: 5
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 48
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.14
+          referral_completion_rate: 0.70
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.22
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC5-E:
+        display_name: "CHC Amravati SW-1"
+        type: chc
+        x: 0.18
+        y: 0.86
+        baseline:
+          patients_queued: 4
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 58
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.15
+          referral_completion_rate: 0.68
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.24
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+      CHC6-E:
+        display_name: "CHC Amravati SW-2"
+        type: chc
+        x: 0.08
+        y: 0.78
+        baseline:
+          patients_queued: 4
+          cartridges: 0
+          truenat_chips: 0
+          travel_time_min: 65
+          tat_hours: 2
+          hr_on_shift: 1
+          machines: 0
+          modules: 0
+          samples_per_module_per_day: 0
+          daily_consumption: 0
+          smear_positivity_rate: 0.0
+          specimen_rejection_rate: 0.16
+          referral_completion_rate: 0.66
+          chw_available: 1
+          bayesian_stockout_prob: 0.0
+          cascade_dropout_risk: 0.26
+          status: ok
+        thresholds:
+          patients_queued: { warn: 35, critical: 55 }
+          referral_completion_rate: { warn: 0.70, critical: 0.50 }
+          chw_available: { warn: 1, critical: 0 }
+          cascade_dropout_risk: { warn: 0.35, critical: 0.60 }
+
+    links:
+      - [CHC1-E, MC1-E, 55]
+      - [CHC2-E, MC1-E, 60]
+      - [CHC3-E, MC2-E, 52]
+      - [CHC4-E, MC2-E, 48]
+      - [CHC5-E, MC3-E, 58]
+      - [CHC6-E, MC3-E, 65]
+      - [MC1-E, TL1-E, 42]
+      - [MC2-E, TL1-E, 38]
+      - [MC3-E, TL2-E, 46]
+      - [TL1-E, DHC-E, 42]
+      - [TL2-E, DHC-E, 46]
+
+# ─────────────────────────────────────────────────────────────────────────
+# Inter-network connections (3 cross-district referral flows)
+# ─────────────────────────────────────────────────────────────────────────
+inter_network_links:
+  - source: NET-A
+    target: NET-C
+    source_facility: DHC-A
+    target_facility: DHC-C
+    travel_time_min: 180
+    flow_type: culture_dst
+  - source: NET-B
+    target: NET-D
+    source_facility: TH-B
+    target_facility: DHC-D
+    travel_time_min: 210
+    flow_type: overflow
+  - source: NET-D
+    target: NET-A
+    source_facility: DHC-D
+    target_facility: DHC-A
+    travel_time_min: 240
+    flow_type: overflow

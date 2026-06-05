@@ -1,0 +1,63 @@
+# SC-04 · Cascade Failure + Inter-Network · NET-D Gadchiroli → NET-A · 30 ticks · Reactive
+name: "Cascade failure + inter-network"
+primary_network: NET-D
+max_ticks: 30
+affected_facilities: [DHC-D, TL1-D, DHC-A]
+
+per_tick_deltas:
+  DHC-D:
+    patients_queued: 2.2
+    truenat_chips: -1.8
+    cascade_dropout_risk: 0.05
+    hr_on_shift: -0.15
+  DHC-A:
+    patients_queued: 1.2
+    tat_hours: 0.4
+    cascade_dropout_risk: 0.02
+
+shap_weights:
+  patients_queued: 0.35
+  truenat_chips: 0.25
+  cascade_dropout_risk: 0.20
+  hr_on_shift: 0.10
+  tat_hours: 0.10
+
+reroutes:
+  - [CHC1-D, MC1-D]
+  - [CHC2-D, MC1-D]
+
+alerts:
+  - tick: 4
+    type: critical
+    severity: critical
+    recipient: lab_supervisor
+    facility: DHC-D
+    msg: "DHC-D queue critical: {patients_queued:.0f} patients. Chips: {truenat_chips:.0f} remaining"
+  - tick: 8
+    type: critical
+    severity: critical
+    recipient: dto
+    facility: DHC-D
+    msg: "Machine failure at DHC-D. {machines} machines active. Overflow routing to NET-A activated"
+  - tick: 12
+    type: critical
+    severity: critical
+    recipient: dto
+    facility: DHC-A
+    msg: "Inter-network overflow: {patients_queued:.0f} patients queued at DHC-A from NET-D cascade"
+  - tick: 18
+    type: dto_advisory
+    severity: high
+    recipient: dto
+    facility: DHC-A
+    msg: "System-wide stress: DHC-A cascade risk {cascade_dropout_risk:.2f}. Emergency staffing brief required"
+
+recommended_actions:
+  DHC-D:
+    - "Activate inter-network overflow — route MDR-TB and complex cases to DHC-A immediately"
+    - "Deploy emergency CHW teams to reduce cascade dropout in Gadchiroli catchment"
+    - "Request engineer dispatch for machine repair — current status {machines} machines active"
+  DHC-A:
+    - "Prepare for inter-network overflow from NET-D — reallocate lab capacity"
+    - "Increase TAT monitoring frequency — overflow pressure raising turnaround times"
+    - "Brief DTO on system-wide stress — coordinate with Gadchiroli district officer"

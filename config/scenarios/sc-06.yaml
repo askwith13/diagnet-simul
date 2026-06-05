@@ -1,0 +1,46 @@
+# SC-06 · Machine Downtime · NET-A Chandrapur · 20 ticks · Reactive
+name: "Machine downtime"
+primary_network: NET-A
+max_ticks: 20
+affected_facilities: [DHC-A]
+
+per_tick_deltas:
+  DHC-A:
+    modules: -0.3
+    tat_hours: 1.2
+    patients_queued: 1.0
+    bayesian_stockout_prob: 0.018
+
+shap_weights:
+  modules: 0.40
+  tat_hours: 0.30
+  patients_queued: 0.20
+  bayesian_stockout_prob: 0.10
+
+reroutes: []
+
+alerts:
+  - tick: 2
+    type: critical
+    severity: critical
+    recipient: lab_supervisor
+    facility: DHC-A
+    msg: "GeneXpert module failure at DHC-A. Active modules: {modules}. TAT rising: {tat_hours:.0f}h"
+  - tick: 6
+    type: bayesian
+    severity: high
+    recipient: lab_supervisor
+    facility: DHC-A
+    msg: "Anomaly detected: test-ordering pattern abnormal. Anomaly score elevated. TAT {tat_hours:.0f}h"
+  - tick: 12
+    type: dto_advisory
+    severity: high
+    recipient: dto
+    facility: DHC-A
+    msg: "TAT {tat_hours:.0f}h exceeds critical threshold. Engineer dispatch required. Queue: {patients_queued:.0f}"
+
+recommended_actions:
+  DHC-A:
+    - "Dispatch biomedical engineer immediately — module failure impacting TAT {tat_hours:.0f}h"
+    - "Redistribute patient load to TL1-A and TL2-A while modules {modules} offline"
+    - "Monitor cartridge consumption — reduced throughput may extend effective runway"

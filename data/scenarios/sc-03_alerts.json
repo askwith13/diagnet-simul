@@ -1,0 +1,41 @@
+[
+  {
+    "tick": 6,
+    "facility_id": "DHC-C",
+    "network_id": "NET-C",
+    "alert_type": "bayesian",
+    "message": "Bayesian forecast: P(stockout 14d) = 0.26 at DHC-C. Cartridges: 74 remaining",
+    "shap_contributions": {
+      "cartridges": -5.76,
+      "patients_queued": 0.36,
+      "bayesian_stockout_prob": 0.039599999999999996
+    },
+    "severity": "high"
+  },
+  {
+    "tick": 9,
+    "facility_id": "DHC-C",
+    "network_id": "NET-C",
+    "alert_type": "recommendation",
+    "message": "Preventive reroute activated: MC3-C and MC4-C to TL2-C for 7 days. Cartridges: 70",
+    "shap_contributions": {
+      "cartridges": -8.64,
+      "patients_queued": 0.54,
+      "bayesian_stockout_prob": 0.059399999999999994
+    },
+    "severity": "medium"
+  },
+  {
+    "tick": 18,
+    "facility_id": "DHC-C",
+    "network_id": "NET-C",
+    "alert_type": "bayesian",
+    "message": "Risk resolved: P(stockout 14d) = 0.28. Reroute intervention effective",
+    "shap_contributions": {
+      "cartridges": -17.28,
+      "patients_queued": 1.08,
+      "bayesian_stockout_prob": 0.11879999999999999
+    },
+    "severity": "low"
+  }
+]

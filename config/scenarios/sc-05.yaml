@@ -1,0 +1,54 @@
+# SC-05 · Concurrent Multi-Failure · NET-E Amravati · 30 ticks · Reactive
+name: "Concurrent multi-failure"
+primary_network: NET-E
+max_ticks: 30
+affected_facilities: [DHC-E, TL1-E]
+
+per_tick_deltas:
+  DHC-E:
+    cartridges: -1.4
+    patients_queued: 1.6
+    tat_hours: 0.5
+    cascade_dropout_risk: 0.03
+
+shap_weights:
+  cartridges: 0.40
+  patients_queued: 0.35
+  tat_hours: 0.15
+  cascade_dropout_risk: 0.10
+
+reroutes:
+  - [CHC3-E, TL2-E]
+  - [CHC4-E, TL2-E]
+
+alerts:
+  - tick: 3
+    type: warning
+    severity: medium
+    recipient: lab_supervisor
+    facility: DHC-E
+    msg: "Dual pressure at DHC-E: cartridges {cartridges:.0f} (low) and queue {patients_queued:.0f} (rising)"
+  - tick: 8
+    type: critical
+    severity: critical
+    recipient: dto
+    facility: DHC-E
+    msg: "Dual failure: cartridges critical ({cartridges:.0f}) and queue critical ({patients_queued:.0f} patients)"
+  - tick: 14
+    type: recommendation
+    severity: medium
+    recipient: clinician
+    facility: DHC-E
+    msg: "Optimal reroute: CHC3-E and CHC4-E to TL2-E. Estimated TAT improvement — current TAT {tat_hours:.0f}h"
+  - tick: 22
+    type: dto_advisory
+    severity: medium
+    recipient: dto
+    facility: DHC-E
+    msg: "Partial recovery: queue {patients_queued:.0f} (reducing), cartridges {cartridges:.0f} (still critical)"
+
+recommended_actions:
+  DHC-E:
+    - "Emergency cartridge procurement — dual failure risk if stock {cartridges:.0f} not replenished within 48h"
+    - "Activate Dijkstra-optimal reroute for CHC3-E and CHC4-E to TL2-E to reduce hub pressure"
+    - "Mobilise CHW teams to reduce cascade dropout — current risk {cascade_dropout_risk:.2f}"

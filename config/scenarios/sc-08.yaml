@@ -1,0 +1,137 @@
+# SC-08 · Full Network Recovery · All 5 Networks · 35 ticks · Recovery
+# Starts from post-crisis initial_states; all networks return to green.
+name: "Full network recovery"
+primary_network: ALL
+max_ticks: 35
+affected_facilities: [DHC-A, TH-B, DHC-C, DHC-D, DHC-E]
+
+# Post-crisis starting states — interventions have already been mobilised:
+# cartridge/chip emergency procurement in transit, machine engineer dispatched to NET-D.
+initial_states:
+  NET-A:
+    DHC-A:
+      patients_queued: 60
+      cartridges: 18       # below warn (25) — procurement on the way
+      tat_hours: 38
+      cascade_dropout_risk: 0.65
+      hr_on_shift: 6
+      bayesian_stockout_prob: 0.72
+      status: critical
+  NET-B:
+    TH-B:
+      patients_queued: 45
+      truenat_chips: 18    # raised from 6 — first redistribution batch delivered
+      tat_hours: 28
+      cascade_dropout_risk: 0.52
+      bayesian_stockout_prob: 0.78
+      status: critical
+  NET-C:
+    DHC-C:
+      patients_queued: 38
+      cartridges: 12
+      tat_hours: 30
+      cascade_dropout_risk: 0.44
+      bayesian_stockout_prob: 0.74
+      status: critical
+  NET-D:
+    DHC-D:
+      patients_queued: 30
+      truenat_chips: 18    # raised from 4 — redistribution from NET-A delivered
+      machines: 1          # repaired — engineer arrived as first intervention
+      tat_hours: 34
+      cascade_dropout_risk: 0.58
+      bayesian_stockout_prob: 0.82
+      status: critical
+  NET-E:
+    DHC-E:
+      patients_queued: 52
+      cartridges: 8        # below warn — procurement on the way
+      tat_hours: 32
+      cascade_dropout_risk: 0.48
+      bayesian_stockout_prob: 0.68
+      status: critical
+
+# Recovery deltas — stock replenishment + queue clearance
+# Cartridge/chip rates set so all hubs reach green (P(stockout)<0.40) by tick ~25
+per_tick_deltas:
+  DHC-A:
+    patients_queued: -1.6
+    cartridges: 2.5        # emergency procurement (+2.5/tick → 81 by tick 25)
+    tat_hours: -0.5
+    cascade_dropout_risk: -0.04
+    bayesian_stockout_prob: -0.03
+  TH-B:
+    patients_queued: -1.2
+    truenat_chips: 2.0     # accelerated redistribution (+2/tick → 68 by tick 25)
+    tat_hours: -0.4        # TAT recovering as queue clears (→ below 24 by tick 10)
+    cascade_dropout_risk: -0.03
+    bayesian_stockout_prob: -0.04
+  DHC-C:
+    patients_queued: -1.0
+    cartridges: 2.0        # procurement (+2/tick → 62 by tick 25)
+    tat_hours: -0.4        # TAT recovering (→ below 24 by tick 15)
+    cascade_dropout_risk: -0.03
+    bayesian_stockout_prob: -0.04
+  DHC-D:
+    patients_queued: -0.8
+    truenat_chips: 1.5     # redistribution (+1.5/tick → 55 by tick 25)
+    tat_hours: -0.5        # TAT recovering (→ below 24 by tick 20)
+    cascade_dropout_risk: -0.04
+  DHC-E:
+    patients_queued: -1.4
+    cartridges: 2.0        # procurement (+2/tick → 58 by tick 25)
+    tat_hours: -0.4        # TAT recovering (→ below 24 by tick 20)
+    cascade_dropout_risk: -0.03
+    bayesian_stockout_prob: -0.03
+
+shap_weights:
+  patients_queued: 0.20
+  cartridges: 0.18
+  truenat_chips: 0.18
+  cascade_dropout_risk: 0.15
+  bayesian_stockout_prob: 0.15
+  tat_hours: 0.09
+  machines: 0.05
+
+reroutes: []
+
+alerts:
+  - tick: 5
+    type: recommendation
+    severity: low
+    recipient: all_dtos
+    facility: DHC-A
+    msg: "Recovery interventions activated across all 5 networks. Queue: {patients_queued:.0f}, risk: {cascade_dropout_risk:.2f}"
+  - tick: 15
+    type: bayesian
+    severity: low
+    recipient: programme_manager
+    facility: DHC-D
+    msg: "NET-D recovery progressing: cascade dropout risk {cascade_dropout_risk:.2f} (falling). Queue: {patients_queued:.0f}"
+  - tick: 25
+    type: dto_advisory
+    severity: low
+    recipient: programme_manager
+    facility: DHC-A
+    msg: "NET-A returned to green: queue {patients_queued:.0f}, cartridges {cartridges:.0f}, risk {cascade_dropout_risk:.2f}"
+  - tick: 35
+    type: dto_advisory
+    severity: low
+    recipient: programme_manager
+    facility: DHC-E
+    msg: "Full recovery complete across all networks. Final status: queue {patients_queued:.0f}, risk {cascade_dropout_risk:.2f}"
+
+impact_metrics:
+  - mean_composite_bottleneck_score
+  - total_patients_queued_reduction
+  - facilities_returned_to_ok
+
+recommended_actions:
+  DHC-A:
+    - "Sustain cartridge procurement cadence — stock {cartridges:.0f}, monitor daily consumption"
+    - "Maintain elevated CHW deployment until cascade risk {cascade_dropout_risk:.2f} falls below 0.20"
+    - "Document intervention timeline for DTO report and cross-district learning"
+  DHC-D:
+    - "Machine repair verified — resume full testing capacity"
+    - "Restore inter-network overflow routing to normal standby mode"
+    - "Deploy additional CHW teams to address elevated dropout risk {cascade_dropout_risk:.2f}"

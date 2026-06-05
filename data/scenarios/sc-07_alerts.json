@@ -1,0 +1,44 @@
+[
+  {
+    "tick": 4,
+    "facility_id": "TH-B",
+    "network_id": "NET-B",
+    "alert_type": "bayesian",
+    "message": "Campaign surge detected: P(stockout 14d) = 0.72. Chips: 27. Queue: 34",
+    "shap_contributions": {
+      "truenat_chips": -1.8,
+      "patients_queued": 1.2,
+      "daily_consumption": 0.06,
+      "bayesian_stockout_prob": 0.016
+    },
+    "severity": "medium"
+  },
+  {
+    "tick": 8,
+    "facility_id": "TH-B",
+    "network_id": "NET-B",
+    "alert_type": "recommendation",
+    "message": "Proactive redistribution recommended. Stockout probability 0.76. Transfer chips from TL2-B to TH-B",
+    "shap_contributions": {
+      "truenat_chips": -3.6,
+      "patients_queued": 2.4,
+      "daily_consumption": 0.12,
+      "bayesian_stockout_prob": 0.032
+    },
+    "severity": "medium"
+  },
+  {
+    "tick": 15,
+    "facility_id": "TH-B",
+    "network_id": "NET-B",
+    "alert_type": "bayesian",
+    "message": "Campaign surge managed: P(stockout 14d) = 0.72. Redistribution effective. Chips: 30",
+    "shap_contributions": {
+      "truenat_chips": -6.75,
+      "patients_queued": 4.5,
+      "daily_consumption": 0.22499999999999998,
+      "bayesian_stockout_prob": 0.06
+    },
+    "severity": "low"
+  }
+]

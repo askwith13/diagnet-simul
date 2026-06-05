@@ -1,0 +1,58 @@
+[
+  {
+    "tick": 5,
+    "facility_id": "TH-B",
+    "network_id": "NET-B",
+    "alert_type": "warning",
+    "message": "Truenat chips at TH-B: 24 remaining \u2014 below warn threshold",
+    "shap_contributions": {
+      "truenat_chips": -3.5,
+      "patients_queued": 0.8000000000000002,
+      "bayesian_stockout_prob": 0.01875,
+      "cascade_dropout_risk": 0.015
+    },
+    "severity": "medium"
+  },
+  {
+    "tick": 12,
+    "facility_id": "TH-B",
+    "network_id": "NET-B",
+    "alert_type": "critical",
+    "message": "Truenat chips critical: 14 remaining. Testing capacity at risk",
+    "shap_contributions": {
+      "truenat_chips": -8.399999999999999,
+      "patients_queued": 1.9200000000000004,
+      "bayesian_stockout_prob": 0.045,
+      "cascade_dropout_risk": 0.036000000000000004
+    },
+    "severity": "critical"
+  },
+  {
+    "tick": 16,
+    "facility_id": "TH-B",
+    "network_id": "NET-B",
+    "alert_type": "dto_advisory",
+    "message": "Emergency procurement required. TH-B chips exhausted in ~2 days. Stockout probability 0.91",
+    "shap_contributions": {
+      "truenat_chips": -11.2,
+      "patients_queued": 2.5600000000000005,
+      "bayesian_stockout_prob": 0.06,
+      "cascade_dropout_risk": 0.048
+    },
+    "severity": "high"
+  },
+  {
+    "tick": 20,
+    "facility_id": "TH-B",
+    "network_id": "NET-B",
+    "alert_type": "critical",
+    "message": "Cascade failure: TH-B testing suspended. 45 patients queued. Overflow routing activated",
+    "shap_contributions": {
+      "truenat_chips": -14.0,
+      "patients_queued": 3.2000000000000006,
+      "bayesian_stockout_prob": 0.075,
+      "cascade_dropout_risk": 0.06
+    },
+    "severity": "critical"
+  }
+]

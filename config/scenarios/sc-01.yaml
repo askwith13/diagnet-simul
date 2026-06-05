@@ -1,0 +1,62 @@
+# SC-01 · Network Bottleneck · NET-A Chandrapur · 25 ticks · Reactive
+name: "Network bottleneck"
+primary_network: NET-A
+max_ticks: 25
+affected_facilities: [DHC-A, TL1-A]
+
+per_tick_deltas:
+  DHC-A:
+    patients_queued: 1.8
+    tat_hours: 0.6
+    cascade_dropout_risk: 0.04
+
+shap_weights:
+  patients_queued: 0.45
+  tat_hours: 0.35
+  cascade_dropout_risk: 0.20
+
+reroutes:
+  - [MC2-A, TL2-A]
+  - [CHC2-A, TL2-A]
+
+alerts:
+  - tick: 4
+    type: critical
+    severity: critical
+    recipient: lab_supervisor
+    facility: DHC-A
+    msg: "DHC queue critical: {patients_queued:.0f} patients, TAT {tat_hours:.0f}h (2x median)"
+  - tick: 7
+    type: recommendation
+    severity: medium
+    recipient: clinician
+    facility: DHC-A
+    msg: "Reroute MC2-A and CHC2-A to TL2-A. Estimated TAT relief: 14h. Cascade risk {cascade_dropout_risk:.2f}"
+  - tick: 10
+    type: critical
+    severity: critical
+    recipient: chw_coordinator
+    facility: DHC-A
+    msg: "Cascade dropout risk {cascade_dropout_risk:.2f} — CHW follow-up activation required"
+  - tick: 14
+    type: dto_advisory
+    severity: high
+    recipient: dto
+    facility: DHC-A
+    msg: "Bottleneck persists. Recommend +2 technicians. Cartridge stock {cartridges:.0f} — redistribute from TL3-A"
+
+# After reroute recommendation fires at tick 7, queue pressure at DHC-A reduces
+# but cascade dropout risk continues rising (patients travelling further to TL2-A).
+# Node recovers from red → amber, then cascade dropout drives the tick-14 advisory.
+event_activation_tick: 7
+post_event_deltas:
+  DHC-A:
+    patients_queued: -2.0     # reroute offloads ~50% of excess queue
+    tat_hours: -0.8           # TAT improves as hub pressure eases
+    cascade_dropout_risk: 0.05  # dropout rising (longer travel to TL2-A)
+
+recommended_actions:
+  DHC-A:
+    - "Immediately redirect MC2-A and CHC2-A referrals to TL2-A to relieve hub queue"
+    - "Request +2 additional lab technicians from district emergency pool"
+    - "Initiate cartridge redistribution from TL3-A emergency stock to DHC-A"

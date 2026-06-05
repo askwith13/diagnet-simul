@@ -1,0 +1,56 @@
+# SC-07 · Campaign Month Surge · NET-B Balaghat · 25 ticks · Predictive
+name: "Campaign month surge"
+primary_network: NET-B
+max_ticks: 25
+affected_facilities: [TH-B, TL1-B]
+
+per_tick_deltas:
+  TH-B:
+    patients_queued: 1.2
+    truenat_chips: -1.0
+    bayesian_stockout_prob: 0.020
+    daily_consumption: 0.15
+
+shap_weights:
+  truenat_chips: 0.45
+  patients_queued: 0.25
+  bayesian_stockout_prob: 0.20
+  daily_consumption: 0.10
+
+reroutes:
+  - [MC2-B, TL1-B]
+
+alerts:
+  - tick: 4
+    type: bayesian
+    severity: medium
+    recipient: dto
+    facility: TH-B
+    msg: "Campaign surge detected: P(stockout 14d) = {bayesian_stockout_prob:.2f}. Chips: {truenat_chips:.0f}. Queue: {patients_queued:.0f}"
+  - tick: 8
+    type: recommendation
+    severity: medium
+    recipient: dto
+    facility: TH-B
+    msg: "Proactive redistribution recommended. Stockout probability {bayesian_stockout_prob:.2f}. Transfer chips from TL2-B to TH-B"
+  - tick: 15
+    type: bayesian
+    severity: low
+    recipient: dto
+    facility: TH-B
+    msg: "Campaign surge managed: P(stockout 14d) = {bayesian_stockout_prob:.2f}. Redistribution effective. Chips: {truenat_chips:.0f}"
+
+# After proactive redistribution fires at tick 8, chips flow from TL2-B to TH-B.
+# Stockout probability declines and the hub recovers to green by tick 15.
+event_activation_tick: 8
+post_event_deltas:
+  TH-B:
+    truenat_chips: 0.8        # redistribution refills TH-B chips
+    patients_queued: -0.5     # queue stabilises as capacity restored
+    bayesian_stockout_prob: -0.030  # P(stockout) falling after redistribution
+
+recommended_actions:
+  TH-B:
+    - "Transfer 20 Truenat chips from TL2-B to TH-B — proactive rebalancing before shortage"
+    - "Coordinate with district stores for campaign month buffer stock (30% above baseline)"
+    - "Monitor daily consumption rate {daily_consumption:.1f} chips/day — adjust redistribution if demand increases"

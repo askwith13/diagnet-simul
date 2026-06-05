@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0.0",
+  "scenarios": [
+    {
+      "id": "sc-01",
+      "display_name": "Network bottleneck",
+      "tick_count": 25,
+      "network_ids": [
+        "NET-A",
+        "NET-B",
+        "NET-C",
+        "NET-D",
+        "NET-E"
+      ],
+      "parquet_path": "scenarios/sc-01.parquet",
+      "alerts_path": "scenarios/sc-01_alerts.json"
+    },
+    {
+      "id": "sc-02",
+      "display_name": "Gradual stockout",
+      "tick_count": 25,
+      "network_ids": [
+        "NET-A",
+        "NET-B",
+        "NET-C",
+        "NET-D",
+        "NET-E"
+      ],
+      "parquet_path": "scenarios/sc-02.parquet",
+      "alerts_path": "scenarios/sc-02_alerts.json"
+    },
+    {
+      "id": "sc-03",
+      "display_name": "Predicted stockout (Bayesian)",
+      "tick_count": 25,
+      "network_ids": [
+        "NET-A",
+        "NET-B",
+        "NET-C",
+        "NET-D",
+        "NET-E"
+      ],
+      "parquet_path": "scenarios/sc-03.parquet",
+      "alerts_path": "scenarios/sc-03_alerts.json"
+    },
+    {
+      "id": "sc-04",
+      "display_name": "Cascade failure + inter-network",
+      "tick_count": 30,
+      "network_ids": [
+        "NET-A",
+        "NET-B",
+        "NET-C",
+        "NET-D",
+        "NET-E"
+      ],
+      "parquet_path": "scenarios/sc-04.parquet",
+      "alerts_path": "scenarios/sc-04_alerts.json"
+    },
+    {
+      "id": "sc-05",
+      "display_name": "Concurrent multi-failure",
+      "tick_count": 30,
+      "network_ids": [
+        "NET-A",
+        "NET-B",
+        "NET-C",
+        "NET-D",
+        "NET-E"
+      ],
+      "parquet_path": "scenarios/sc-05.parquet",
+      "alerts_path": "scenarios/sc-05_alerts.json"
+    },
+    {
+      "id": "sc-06",
+      "display_name": "Machine downtime",
+      "tick_count": 20,
+      "network_ids": [
+        "NET-A",
+        "NET-B",
+        "NET-C",
+        "NET-D",
+        "NET-E"
+      ],
+      "parquet_path": "scenarios/sc-06.parquet",
+      "alerts_path": "scenarios/sc-06_alerts.json"
+    },
+    {
+      "id": "sc-07",
+      "display_name": "Campaign month surge",
+      "tick_count": 25,
+      "network_ids": [
+        "NET-A",
+        "NET-B",
+        "NET-C",
+        "NET-D",
+        "NET-E"
+      ],
+      "parquet_path": "scenarios/sc-07.parquet",
+      "alerts_path": "scenarios/sc-07_alerts.json"
+    },
+    {
+      "id": "sc-08",
+      "display_name": "Full network recovery",
+      "tick_count": 35,
+      "network_ids": [
+        "NET-A",
+        "NET-B",
+        "NET-C",
+        "NET-D",
+        "NET-E"
+      ],
+      "parquet_path": "scenarios/sc-08.parquet",
+      "alerts_path": "scenarios/sc-08_alerts.json"
+    }
+  ]
+}

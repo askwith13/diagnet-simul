@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PRD Validation: DiagNet Simulation PRD</title>
+<style>
+  :root {
+    --bg: #fafaf9;
+    --surface: #ffffff;
+    --border: #e7e5e4;
+    --text: #1c1917;
+    --muted: #78716c;
+    --verdict-strong: #16a34a;
+    --verdict-adequate: #65a30d;
+    --verdict-thin: #d97706;
+    --verdict-broken: #dc2626;
+    --sev-low: #64748b;
+    --sev-medium: #ca8a04;
+    --sev-high: #ea580c;
+    --sev-critical: #dc2626;
+    --grade-exc: #16a34a;
+    --grade-good: #65a30d;
+    --grade-fair: #d97706;
+    --grade-poor: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 32px 24px 64px; }
+  header.report-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .title h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .title .subtitle { color: var(--muted); font-size: 13px; margin-top: 4px; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .grade {
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: white;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .grade-poor { background: var(--grade-poor); }
+  .synthesis {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--muted);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    font-size: 15.5px;
+  }
+  .synthesis p { margin: 0 0 10px; }
+  .synthesis p:last-child { margin-bottom: 0; }
+  .dimension-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .dim-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .dim-card .dim-name { font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .dim-card .dim-verdict { font-size: 14px; font-weight: 600; }
+  section.dimension, section.reviewer-section { margin-bottom: 14px; }
+  section.dimension details, section.reviewer-section details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  section summary {
+    padding: 14px 20px;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  section summary::-webkit-details-marker { display: none; }
+  section summary::before {
+    content: "▸";
+    display: inline-block;
+    color: var(--muted);
+    transition: transform 0.15s ease;
+  }
+  section details[open] summary::before { transform: rotate(90deg); }
+  section summary h2 {
+    display: inline;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    flex: 1;
+  }
+  .verdict-pill {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: white;
+  }
+  .verdict-strong { background: var(--verdict-strong); }
+  .verdict-adequate { background: var(--verdict-adequate); }
+  .verdict-thin { background: var(--verdict-thin); }
+  .verdict-broken { background: var(--verdict-broken); }
+  .dim-body { padding: 4px 20px 18px; }
+  .dim-judgment { color: var(--text); font-size: 14.5px; }
+  .dim-judgment p { margin: 0 0 10px; }
+  .findings-list { padding: 0 20px 4px; }
+  article.finding {
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+  }
+  article.finding:first-child { border-top: none; }
+  article.finding header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+  .badge {
+    font-size: 10.5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+  }
+  .badge-sev-low { background: rgba(100, 116, 139, 0.12); color: var(--sev-low); }
+  .badge-sev-medium { background: rgba(202, 138, 4, 0.14); color: var(--sev-medium); }
+  .badge-sev-high { background: rgba(234, 88, 12, 0.14); color: var(--sev-high); }
+  .badge-sev-critical { background: rgba(220, 38, 38, 0.14); color: var(--sev-critical); }
+  .finding-title { margin: 0; font-size: 15px; font-weight: 500; flex: 1; min-width: 200px; }
+  .finding-location { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; color: var(--muted); }
+  .finding-note, .finding-fix { margin-top: 6px; font-size: 14px; }
+  .finding-fix strong { color: var(--muted); font-weight: 500; }
+  .reviewer-source {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  .mechanical {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 24px;
+    font-size: 14px;
+  }
+  .mechanical h3 { margin: 0 0 10px; font-size: 14px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .mechanical ul { margin: 0; padding-left: 20px; }
+  .mechanical li { margin-bottom: 4px; color: var(--text); }
+  footer.report-footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  footer .meta { display: flex; gap: 24px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <header class="report-header">
+      <div class="title">
+        <h1>DiagNet Simulation PRD — Validation Report</h1>
+        <div class="subtitle">_bmad-output/planning-artifacts/Simulation PRD.md</div>
+      </div>
+      <div class="grade grade-poor">Poor</div>
+    </header>
+
+    <div class="synthesis">
+      <p>The PRD is technically rich and unusually specific for a hackathon context — the scenario table, tick-level alert sequence for SC-01, FacilityState field list, and NFR targets with measurement hooks are genuine implementation scaffolding. The structural layers (module table, data model, scenario catalogue, risk table) are directly usable for architecture extraction. However, four critical implementation blockers surfaced by the adversarial review push the grade to Poor: the GlobalState data contract is missing from the data model, the node-click → Tab 3 navigation pattern has no specified implementation path, the SHAP stub computation algorithm is named but not defined, and SC-08 "Simulate all" orchestration is unspecified. Any one of these will force developers to make incompatible guesses during the sprint.</p>
+      <p>Beyond the criticals, the rubric identifies concentrated gaps in done-ness clarity (SC-02–SC-08 have no tick-level specs, making regression tests unwritable), scope honesty (no [ASSUMPTION] tags; kaleido dependency unacknowledged; rpy2 in the stack but deferred), and downstream usability (no FR-NNN IDs, blocking story anchoring). The Week 3 scope — Tabs 2–4, 6 remaining scenarios, export, screenshot, polish — is ambitious for 4 days on a team of 5, and the PRD does not surface this as a risk.</p>
+    </div>
+
+    <div class="dimension-summary">
+      <div class="dim-card">
+        <div class="dim-name">Decision-readiness</div>
+        <div class="dim-verdict" style="color: var(--verdict-adequate)">Adequate</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-name">Substance over theater</div>
+        <div class="dim-verdict" style="color: var(--verdict-strong)">Strong</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-name">Strategic coherence</div>
+        <div class="dim-verdict" style="color: var(--verdict-strong)">Strong</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-name">Done-ness clarity</div>
+        <div class="dim-verdict" style="color: var(--verdict-adequate)">Adequate</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-name">Scope honesty</div>
+        <div class="dim-verdict" style="color: var(--verdict-thin)">Thin</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-name">Downstream usability</div>
+        <div class="dim-verdict" style="color: var(--verdict-adequate)">Adequate</div>
+      </div>
+      <div class="dim-card">
+        <div class="dim-name">Shape fit</div>
+        <div class="dim-verdict" style="color: var(--verdict-strong)">Strong</div>
+      </div>
+    </div>
+
+    <!-- 1. Decision-readiness -->
+    <section class="dimension">
+      <details>
+        <summary>
+          <h2>Decision-readiness</h2>
+          <span class="verdict-pill verdict-adequate">Adequate</span>
+        </summary>
+        <div class="dim-body">
+          <div class="dim-judgment">
+            <p>The PRD surfaces several real trade-offs explicitly: brms/Stan deferred to v2 (R-04), SHAP statistical rigour acknowledged (R-03), Tab 2 performance risk (R-01), and the inter-network sync problem (R-05). The risk table gives likelihoods and mitigations, which is more than most PRDs at this stage. However, two decisions that would block architecture choices right now are still open: (1) the v2 Bayesian engine scope boundary is never stated — architects cannot design the abstraction layer; (2) the "About panel" referenced in §2 for the IT/Data persona does not appear in §8's 4-tab spec.</p>
+          </div>
+        </div>
+        <div class="findings-list">
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-high">High</span>
+              <h3 class="finding-title">v2 Bayesian scope boundary undefined</h3>
+              <span class="finding-location">§3, §7, §12</span>
+            </header>
+            <div class="finding-note">"v1 scipy stub only; rpy2 deferred to v2" is stated three times but no version boundary or trigger condition is defined. Architects cannot design the data model abstraction layer.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add one decision line: "v2 is out of scope for the June submission; scipy stub is the final implementation unless explicitly re-scoped by the project lead."</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-high">High</span>
+              <h3 class="finding-title">"About panel" missing from Tab structure</h3>
+              <span class="finding-location">§2 vs. §8</span>
+            </header>
+            <div class="finding-note">Persona table references a data-source table in an About panel; §8 defines exactly 4 tabs with no About. A Streamlit architect cannot proceed without resolving this.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Either add Tab 5 / About modal spec to §8, or remove the About panel reference from §2 and redirect the IT/Data demo moment to Tab 4.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">Tab 3 interaction model not decided</h3>
+              <span class="finding-location">§8</span>
+            </header>
+            <div class="finding-note">"Accessed by clicking node" is stated but Plotly clickData callbacks in Streamlit require a specific session_state pattern. Missing as an architectural decision — will cause re-work in story creation.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add one line: "Node click triggers st.session_state['selected_facility'] via plotly_click callback; Tab 3 reads this key."</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- 2. Substance over theater -->
+    <section class="dimension">
+      <details>
+        <summary>
+          <h2>Substance over theater</h2>
+          <span class="verdict-pill verdict-strong">Strong</span>
+        </summary>
+        <div class="dim-body">
+          <div class="dim-judgment">
+            <p>Personas in §2 are tied to specific observable demo moments. NFRs in §9 carry numeric targets with named measurement methods. The vision in §1 is specific to NTEP/India/CBNAAT and cannot be swapped into a generic health PRD. One mild theater instance: M3 (GCN embeddings, node2vec, internal/not shown) has no demo moment, no alert, no AC, and no scenario that exercises it. It is innovation theater.</p>
+          </div>
+        </div>
+        <div class="findings-list">
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">M3 GCN stub is innovation theater</h3>
+              <span class="finding-location">§7</span>
+            </header>
+            <div class="finding-note">128-dim embeddings are "internal, not shown in demo" with no scenario, no AC, no dashboard element. If it exists only to signal "we have GCN," it should be labelled accordingly — or its M4 dependency resolved (see adversarial findings).</div>
+            <div class="finding-fix"><strong>Fix:</strong> Label M3 as "v2 placeholder, not implemented in v1" and decouple M4 from M3 output (M4 uses Dijkstra with composite edge weights only).</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-low">Low</span>
+              <h3 class="finding-title">Developer personas in §2 are credits, not personas</h3>
+              <span class="finding-location">§2</span>
+            </header>
+            <div class="finding-note">"Tech Writing Lead (Dr Nitiksha)" tells an architect nothing decision-relevant. These are acknowledgements.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Move developer names to an Acknowledgements footer; keep only the 5 primary demo personas in §2.</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- 3. Strategic coherence -->
+    <section class="dimension">
+      <details>
+        <summary>
+          <h2>Strategic coherence</h2>
+          <span class="verdict-pill verdict-strong">Strong</span>
+        </summary>
+        <div class="dim-body">
+          <div class="dim-judgment">
+            <p>The thesis is clear and consistent: "show NTEP stakeholders that AI-assisted network intelligence prevents diagnostic failures before they cascade." Every major feature — 8 scenarios, 4 AI stubs, SHAP explainability, inter-network connections — serves this thesis. The scenario arc from single-failure (SC-01–SC-03) through multi-failure (SC-04–SC-05) to recovery (SC-08) is a deliberate demonstration narrative. Success metrics are functional but implicit (demo moments in §2; scenario AC in §10); no explicit pass/fail line and no counter-metrics.</p>
+          </div>
+        </div>
+        <div class="findings-list">
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-low">Low</span>
+              <h3 class="finding-title">No explicit demo success definition</h3>
+              <span class="finding-location">§1, §2</span>
+            </header>
+            <div class="finding-note">Demo moments exist but there is no stated pass/fail threshold for the June presentation. If TAT charts are blank, does the demo pass?</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add 3-bullet "Demo success criteria" to §1: "All 8 scenarios complete without traceback; SHAP panel visible on ≥1 alert per scenario; Tab 2 renders 5 networks without perceptible lag."</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-low">Low</span>
+              <h3 class="finding-title">No counter-metrics on AI output ranges</h3>
+              <span class="finding-location">§6, §7</span>
+            </header>
+            <div class="finding-note">If Bayesian stockout probability is always >0.90 in SC-03, the model is not discriminating. No floor/ceiling bounds keep AI outputs credible.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add per-model output range expectations to §7 (e.g., "B1 P(stockout) ranges 0.20–0.95 across scenarios; M1 anomaly score ranges 0.30–0.95").</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- 4. Done-ness clarity -->
+    <section class="dimension">
+      <details>
+        <summary>
+          <h2>Done-ness clarity</h2>
+          <span class="verdict-pill verdict-adequate">Adequate</span>
+        </summary>
+        <div class="dim-body">
+          <div class="dim-judgment">
+            <p>The SC-01 tick-level alert sequence and the NFR table (with measurement locations) are far stronger than typical PRDs. The immutable-tick-state constraint is an unusually precise architectural AC. The weaknesses are at the feature level: FRs are prose-only (no FR-NNN IDs), and several phrases will create ambiguity in story writing. "Pulse ring on critical" has no animation spec. "3 bullets" recommended actions has no source spec. Only SC-01 of 8 scenarios has tick-level detail; the other 7 lack it, making regression test fixtures impossible to write.</p>
+          </div>
+        </div>
+        <div class="findings-list">
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-high">High</span>
+              <h3 class="finding-title">Only SC-01 has tick-level alert sequences</h3>
+              <span class="finding-location">§6</span>
+            </header>
+            <div class="finding-note">SC-02–SC-08 have no tick-level specs. Engineers cannot write regression test golden fixtures for 7 of 8 scenarios.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add tick/type/metric-threshold trigger tables for SC-02–SC-08 (3–4 key ticks per scenario is sufficient; full SC-01 level detail is not required for all).</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-high">High</span>
+              <h3 class="finding-title">"Pulse ring on critical" undefined</h3>
+              <span class="finding-location">§8, Tab 1</span>
+            </header>
+            <div class="finding-note">No spec for animation type, period, radius, or Plotly implementation approach. Two developers will implement differently.</div>
+            <div class="finding-fix"><strong>Fix:</strong> "Animated Plotly scatter marker with size oscillating between 1× and 1.4× node radius at 1Hz via frame-based animation; triggered when status='critical'." Or see adversarial finding — consider downgrading to static outer ring.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">"Recommended actions — 3 bullets" source ambiguous</h3>
+              <span class="finding-location">§8, Tab 3</span>
+            </header>
+            <div class="finding-note">Hardcoded YAML vs. dynamic state-derived content is an architecture decision, not a display decision.</div>
+            <div class="finding-fix"><strong>Fix:</strong> "Recommended actions are pre-authored strings in scenario YAML keyed by (scenario_id, tick_range, facility_id); displayed verbatim in Tab 3."</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">No YAML skeleton for SC-02–SC-08</h3>
+              <span class="finding-location">§6</span>
+            </header>
+            <div class="finding-note">Schema defined for SC-01 only; data_generator.py author cannot produce consistent test fixtures for remaining scenarios.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add per_tick_deltas skeleton YAML for each remaining scenario.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-low">Low</span>
+              <h3 class="finding-title">"Demo video recorded" is not a software AC</h3>
+              <span class="finding-location">§10, Week 3</span>
+            </header>
+            <div class="finding-note">Week 3 AC lists "demo video recorded" — this is a deliverable, not an acceptance criterion.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Replace with "Screenshot regression test passes at ticks 0, 7, 15, 25 for all scenarios."</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- 5. Scope honesty — open (thin) -->
+    <section class="dimension">
+      <details open>
+        <summary>
+          <h2>Scope honesty</h2>
+          <span class="verdict-pill verdict-thin">Thin</span>
+        </summary>
+        <div class="dim-body">
+          <div class="dim-judgment">
+            <p>The Non-Goals list covers only large production features (NIKSHAY, patient data, mobile, federated learning) — none of which are tensions the team will debate in the sprint. The real scope tensions are unresolved: Tab 3 node-click requires non-trivial Streamlit/Plotly wiring; screenshot mode requires kaleido (unlisted dependency) and has ambiguous scope; rpy2 is in the stack but v1 ships scipy-only; config editor write-back is silently cut. There are zero [ASSUMPTION] tags or [NOTE FOR PM] callouts in the entire document. For a PRD feeding architecture and stories, this gap will propagate silently into implementation decisions.</p>
+          </div>
+        </div>
+        <div class="findings-list">
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-high">High</span>
+              <h3 class="finding-title">Screenshot mode kaleido dependency not flagged</h3>
+              <span class="finding-location">§8, Tab 4</span>
+            </header>
+            <div class="finding-note">plotly.io PNG export requires kaleido; not in tech stack; not in risks. On a restricted demo machine this fails silently.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add kaleido to §3.3 tech stack and add Risk R-08: "kaleido unavailable on demo machine; mitigation: bundle or fallback to browser screenshot via pyautogui."</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-high">High</span>
+              <h3 class="finding-title">No [ASSUMPTION] tags anywhere in the document</h3>
+              <span class="finding-location">Throughout</span>
+            </header>
+            <div class="finding-note">Three load-bearing unmarked assumptions: (a) synthetic baseline states are clinically plausible enough for domain expert reviewers; (b) demo runs on a laptop, affecting performance NFR interpretation; (c) SHAP approximation from per_tick_deltas is acceptable to technical reviewers.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add an Assumptions Index (§A) with at minimum these three items, each with owner and validation plan.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">Config editor write-back silently cut</h3>
+              <span class="finding-location">§8, Tab 4 vs. §1</span>
+            </header>
+            <div class="finding-note">"Read-only + download" implies write-back is cut, but this scope reduction is not in Non-Goals.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add "In-app YAML editing with write-back" to §1 Non-Goals.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">rpy2 in tech stack but deferred</h3>
+              <span class="finding-location">§3, §12</span>
+            </header>
+            <div class="finding-note">Creates confusion about what is actually being built in v1.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Move rpy2 to a "v2 dependencies" subsection in §3, separate from the v1 stack.</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- 6. Downstream usability -->
+    <section class="dimension">
+      <details>
+        <summary>
+          <h2>Downstream usability</h2>
+          <span class="verdict-pill verdict-adequate">Adequate</span>
+        </summary>
+        <div class="dim-body">
+          <div class="dim-judgment">
+            <p>UX extraction is good: tab structure, node/edge encoding, alert panel dimensions (220px, 14 alerts), and time-series chart types are all spec'd with enough fidelity for wireframes. Architecture extraction is solid: module table with file paths, data flow description, FacilityState field list. Story creation extraction degrades: no FR-NNN IDs exist, so story writers cannot anchor to a specific requirement. Cross-referencing "SHAP waterfall panel on any alert" (§2) to "SHAP waterfall (top-5 features)" (§8) to "SHAP stubs display" (§10) requires manual text matching. Glossary of 26 terms is present with no drift detected on spot-check; "node2vec" is missing.</p>
+          </div>
+        </div>
+        <div class="findings-list">
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-high">High</span>
+              <h3 class="finding-title">No functional requirement IDs</h3>
+              <span class="finding-location">§4–§8</span>
+            </header>
+            <div class="finding-note">Story writers cannot anchor to "FR-042: pulse ring" or cross-reference between sections. In a 5-day sprint, manual text hunting is a real time cost.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add FR-NNN IDs to each named feature in §§4–8. Minimal approach: number each bullet/row in §8's tab specs (FR-101–FR-140 covers the dashboard layer).</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">"node2vec" missing from glossary</h3>
+              <span class="finding-location">§7, §13</span>
+            </header>
+            <div class="finding-note">Used as the M3 implementation approach; non-technical reviewers will not know this term.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add "node2vec: graph embedding technique using random walks to produce vector representations of nodes; used as a lower-complexity GCN approximation."</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-low">Low</span>
+              <h3 class="finding-title">inter_network_links absent from NetworkState schema</h3>
+              <span class="finding-location">§4 vs. §5</span>
+            </header>
+            <div class="finding-note">Inter-network connections defined in §4 but NetworkState in §5 has no inter_network_links field. GlobalState architect (R-05) has no schema anchor.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add <code>inter_network_links: List[Tuple[str, str, str]]</code> to NetworkState fields in §5.3.</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- 7. Shape fit -->
+    <section class="dimension">
+      <details>
+        <summary>
+          <h2>Shape fit</h2>
+          <span class="verdict-pill verdict-strong">Strong</span>
+        </summary>
+        <div class="dim-body">
+          <div class="dim-judgment">
+            <p>The PRD is correctly shaped for a hackathon demo/simulation platform with a hard deadline and dual audience (technical + non-technical). Tick-level scenario specs, module table with file paths, demo moments per persona rather than user journey flows, and a week-level implementation plan with module build order are all appropriate for this context. The one shape failure: Week 3 AC "All 8 scenarios run" treats scenario correctness as binary but 7 of 8 scenarios have no tick-level spec — making "runs" unverifiable and demo rehearsal unschedulable.</p>
+          </div>
+        </div>
+        <div class="findings-list">
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">Week 3 AC "all 8 scenarios run" is unverifiable</h3>
+              <span class="finding-location">§10</span>
+            </header>
+            <div class="finding-note">Directly blocks demo rehearsal scheduling. Resolving the SC-02–SC-08 tick spec gap (Done-ness, High finding) addresses this simultaneously.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Cross-reference to SC-02–SC-08 tick spec gap. Resolving that finding fixes both.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-low">Low</span>
+              <h3 class="finding-title">Flat document structure makes subsystem extraction manual</h3>
+              <span class="finding-location">§§3–8</span>
+            </header>
+            <div class="finding-note">A "Simulation Core" vs. "Presentation Layer" split in the section headers would allow epic writers to scope to one subsystem without reading the full document.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add subsection headers grouping §§3–6 as "Simulation Core" and §§7–8 as "Presentation Layer."</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <!-- Adversarial reviewer section -->
+    <section class="reviewer-section">
+      <details open>
+        <summary>
+          <h2>Adversarial review — Implementation blockers</h2>
+          <span class="reviewer-source">review-adversarial.md</span>
+        </summary>
+        <div class="dim-body">
+          <div class="dim-judgment">
+            <p>The PRD establishes a coherent domain model and workable architecture, but contains four critical implementation-blocking gaps that will force developers to make incompatible guesses during the sprint. The GlobalState data contract is missing; node-click → Tab 3 navigation is technically impossible in standard Streamlit without a workaround; the SHAP stub algorithm is named but not defined; and SC-08 has no orchestration spec. The Week 3 scope (Tabs 2–4, 6 scenarios, export, screenshot, polish) is realistically a 10-day workload compressed into 4 days.</p>
+          </div>
+        </div>
+        <div class="findings-list">
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-critical">Critical</span>
+              <h3 class="finding-title">GlobalState inter-network data contract missing from data model</h3>
+              <span class="finding-location">§4.3, §5.3, §12 R-05</span>
+            </header>
+            <div class="finding-note">R-05 says "introduce a GlobalState container" but GlobalState appears nowhere in §5. No definition of fields, overflow_delta structure, interface with simulation.py, tick synchronisation rule, or conflict resolution when NET-D is tick 22 and NET-A is tick 18. SC-04 and SC-08 — the two highest-value demo scenarios — are blocked until this is resolved. Two developers will independently invent incompatible schemas.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add §5.4 GlobalState specification. Minimum: <code>network_states: Dict[str, NetworkState]</code>, <code>inter_network_flows: List[InterNetworkFlow]</code> (typed dataclass with source_net, target_net, patient_count, tick), <code>global_tick: int</code>, <code>overflow_pending: Dict[str, float]</code>. Specify tick-synchronisation rule (synchronous global tick recommended). Specify who calls GlobalState.apply_overflow().</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-critical">Critical</span>
+              <h3 class="finding-title">Node click → Tab 3 navigation has no specified implementation path</h3>
+              <span class="finding-location">§8.5, §8.3</span>
+            </header>
+            <div class="finding-note">Streamlit ≥1.35 <code>st.tabs()</code> has no programmatic tab-switching API. The standard workaround (JS window.parent.postMessage injection via st.components.v1.html) is non-trivial and undocumented. Tab 3 is the SHAP explainability showcase — the single feature the Funder/Reviewer persona needs to see. If broken or replaced with a clunky workaround, the highest-value demo moment fails.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Specify the workaround explicitly. Recommended: capture plotly_click event into <code>st.session_state.selected_facility</code>; render Tab 3 content conditionally inside the same page below the tab bar using st.expander — avoids tab-switching problem entirely. Or accept Tab 3 is reached via a selectbox and remove "clicking any node" language.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-critical">Critical</span>
+              <h3 class="finding-title">SHAP stub computation algorithm not specified</h3>
+              <span class="finding-location">§7, §8.3, §8.5</span>
+            </header>
+            <div class="finding-note">"SHAP values are approximated from the per_tick_deltas in the scenario YAML" is a name, not an algorithm. No base value, no delta-to-contribution mapping, no normalisation, no handling of facilities not in affected_facilities. SHAP waterfall requires concrete positive/negative bars with numeric values. "Mandatory on every alert" means this gap blocks every alert card's implementation.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Specify the algorithm. Minimal workable spec: for each field f with non-zero per_tick_delta d_f, shap_f = d_f × weight_f where weight_f is a per-field constant in YAML. Waterfall baseline = facility value at tick 0. Contributions sorted by |shap_f| descending; top 5 displayed. Include a worked numeric example for SC-01 tick 4.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-critical">Critical</span>
+              <h3 class="finding-title">SC-08 "Simulate all" orchestration unspecified</h3>
+              <span class="finding-location">§6.1 SC-08, §8.4</span>
+            </header>
+            <div class="finding-note">SC-08 has no start-state definition (post-SC-04 crisis? fresh baseline?), no multi-network YAML delta schema, no definition of "impact metrics," and §8.4 says the "Simulate all" button "runs SC-04" while §6.1 assigns SC-08 to all 5 networks — direct conflict. The primary_network field semantics for "All 5 networks" are undefined.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Define SC-08 start state (recommended: pre-loaded "post-crisis" YAML baselines, not derived from a prior run). Add multi-network delta schema to §6.3. Define "impact metrics" as specific aggregates (mean composite_bottleneck_score, total patients_queued reduction, count of facilities returning to green). Resolve the §8.4 / §6.1 conflict — clarify that "Simulate all" launches SC-08, SC-04 is accessed via dropdown.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-high">High</span>
+              <h3 class="finding-title">Speed slider delta-scaling behaviour ambiguous</h3>
+              <span class="finding-location">§8.2, §6.3</span>
+            </header>
+            <div class="finding-note">"Controls both tick rate and per-tick state delta magnitude" is ambiguous. Does 4× speed scale deltas (4× delta per tick = different cumulative state) or only animation rate (same state, faster display)? Developer A and Developer B will build incompatible implementations. Alert timings will diverge.</div>
+            <div class="finding-fix"><strong>Fix:</strong> One sentence in §8.2: "Speed slider controls only the sleep_interval_s between st.rerun() calls. Per-tick delta magnitudes are invariant to speed setting."</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-high">High</span>
+              <h3 class="finding-title">effective_capacity formula has unit collision and undefined variables</h3>
+              <span class="finding-location">§5.2</span>
+            </header>
+            <div class="finding-note"><code>min(cartridges / daily_consumption, modules × max_samples_per_module)</code> — both daily_consumption and max_samples_per_module are not FacilityState fields (§5.1). Left term produces days-of-stock; right term produces samples/day. min() across different units is dimensionally incorrect. This feeds predicted_stockout_day, which is a primary Bayesian demo output.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Rewrite as <code>effective_capacity_days = cartridges / samples_per_module_per_day</code>. Rename the right-hand term to <code>throughput_capacity_samples_per_day = modules × samples_per_module_per_day</code> as a separate metric. Add daily_consumption as an explicit YAML baseline field if consumed-rate tracking is required.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-high">High</span>
+              <h3 class="finding-title">Screenshot mode scope and implementation path undefined</h3>
+              <span class="finding-location">§8.6, Tab 4</span>
+            </header>
+            <div class="finding-note">"Current network map" — is this one Plotly figure or the full 4-tab dashboard? The full dashboard cannot be captured by plotly.io.write_image (single-figure API only). Playwright/Selenium would violate offline constraint. "Current" is ambiguous (running vs. paused).</div>
+            <div class="finding-fix"><strong>Fix:</strong> "Screenshot exports only the active Plotly network map figure using plotly.io.write_image() with engine='kaleido'." Add kaleido to dependency list. Specify simulation must be paused before screenshot is triggered.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-high">High</span>
+              <h3 class="finding-title">Alert message interpolation engine unspecified</h3>
+              <span class="finding-location">§6.3</span>
+            </header>
+            <div class="finding-note">msg: "DHC queue critical: {patients_queued:.0f} patients" uses f-string syntax in a static YAML string. No spec for: which FacilityState namespace is used, behaviour on missing key (KeyError vs. fallback), whether nested access is supported. A runtime KeyError during a live demo is catastrophic.</div>
+            <div class="finding-fix"><strong>Fix:</strong> "Message strings interpolated using str.format_map() against FacilityState.__dict__ of the first facility in affected_facilities. Missing keys render as the literal key name in brackets." Provide a safe-format helper in core/models.py.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-high">High</span>
+              <h3 class="finding-title">tick_history O(n²) space blowup with immutable state</h3>
+              <span class="finding-location">§5.3, §9 NFRs</span>
+            </header>
+            <div class="finding-note">tick_history: List[Dict] is stored inside NetworkState. If each tick snapshot includes the full NetworkState (which includes its own tick_history), serialisation is recursive and O(n²). SC-08 at 35 ticks across 5 networks = 164,500 values minimum — with recursive nesting, a RecursionError or multi-second export that kills the Tab 4 demo.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Specify in §5.3: "Each tick_history entry is a flat dict: {tick: int, facility_id: str, **facility_state_fields}. The tick_history list is excluded from NetworkState serialisation snapshots to prevent recursive growth."</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">Pulsing ring animation technically incompatible with Streamlit rerun model</h3>
+              <span class="finding-location">§8.3</span>
+            </header>
+            <div class="finding-note">Plotly does not support per-frame opacity oscillation without rebuilding the entire figure per frame. At 1.2 Hz this conflicts with the 400ms tick render budget and the st.rerun() loop. Developer will either skip it silently or waste sprint time before abandoning.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Downgrade: "Critical nodes display a static outer ring at 1.5× node radius in the critical colour with 0.4 opacity. Pulsing animation deferred to v2.0."</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">Scenario comparison requires two scenario run histories with no state isolation spec</h3>
+              <span class="finding-location">§8.6, Tab 4</span>
+            </header>
+            <div class="finding-note">No spec for whether comparison is post-hoc or concurrent, how session_state stores two independent tick_history streams, or which scenario "owns" the top bar controls during comparison. Developer will invent the architecture from scratch.</div>
+            <div class="finding-fix"><strong>Fix:</strong> "Scenario comparison is post-hoc only. After any scenario completes, its tick_history is saved to st.session_state.scenario_snapshots[scenario_id]. Tab 4 compares any two saved snapshots. No simultaneous dual-run required."</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">Alert panel persistence, deduplication, and scoping rules absent</h3>
+              <span class="finding-location">§8.3</span>
+            </header>
+            <div class="finding-note">No spec for: whether alerts persist across ticks or expire, deduplication on re-trigger, per-network vs. global scope, or what displays at tick 0. In SC-08 across 5 networks, hundreds of alerts could fire — "14 most recent" semantics become critical but undefined.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add to §8.3: "Alert panel shows 14 most recent AlertRecords from NetworkState.alerts for the currently selected network. Alerts persist for the lifetime of the current scenario run. Same-tick duplicate alerts (same type + same facility) are deduplicated. At tick 0: 'No alerts — simulation not started.'"</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">"Simulate all" button conflicts with SC-04 assignment</h3>
+              <span class="finding-location">§8.4 vs. §6.1</span>
+            </header>
+            <div class="finding-note">§8.4 says the button "runs SC-04." §6.1 defines SC-08 as the all-networks scenario. Two developers will implement different behaviours.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Decide and state: "The 'Simulate all' button launches SC-08. SC-04 is accessed via scenario dropdown and always runs on NET-D as primary network."</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-medium">Medium</span>
+              <h3 class="finding-title">M3 → M4 dependency chain is architecturally inconsistent</h3>
+              <span class="finding-location">§7</span>
+            </header>
+            <div class="finding-note">M3 produces 128-dim node embeddings as "input to M4," but M4 uses Dijkstra path-finding on edge weights — not node embeddings. NetworkX node2vec is not a standard library; the node2vec Python package is not in the stack. If M4 silently falls back to plain Dijkstra, the Q-table and M3 claims are misleading.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Decouple M3 from M4. Specify M4 uses Dijkstra with composite edge weights (travel_time + tat_penalty) and a pre-loaded Q-table YAML lookup — no M3 dependency. Label M3 as v2 placeholder.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-low">Low</span>
+              <h3 class="finding-title">Inter-network link YAML schema absent</h3>
+              <span class="finding-location">§4.3, §11.1</span>
+            </header>
+            <div class="finding-note">§11.1 shows intra-network links; inter-network connections (NET-A↔NET-C etc.) have no YAML representation. graph.py cannot build a cross-network graph from the config as specified.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add top-level inter_network_links key to §11.1: <code>- source: NET-D, target: NET-A, source_facility: DHC-D, target_facility: DHC-A, travel_time_min: 240, flow_type: overflow</code>.</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-low">Low</span>
+              <h3 class="finding-title">WCAG AA alert card colours will fail as specified</h3>
+              <span class="finding-location">§9, §8.3</span>
+            </header>
+            <div class="finding-note">#ef4444 (red) on white = ~4.0:1 contrast ratio (fails WCAG AA for normal text). #f59e0b (amber) on white = ~2.8:1 (fails even for large text). PRD explicitly mandates WCAG AA for alert cards — the colour values given will not meet this NFR.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add colour spec table to §9: CRITICAL = #dc2626 background with white text (4.5:1); DTO ADVISORY = amber card (#f59e0b) with dark text #92400e (7.3:1); BAYESIAN = #1d4ed8 with white text (5.9:1).</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-low">Low</span>
+              <h3 class="finding-title">Reset button behaviour during active run unspecified</h3>
+              <span class="finding-location">§8.2</span>
+            </header>
+            <div class="finding-note">No spec for: whether Reset stops the sim before clearing state, whether tick_history is preserved for export, whether selected_facility is cleared. Clearing tick_history on Reset blocks the data-team Tab 4 export use case.</div>
+            <div class="finding-fix"><strong>Fix:</strong> Add to §8.2: "Reset preserves tick_history in scenario_snapshots[scenario_id] for export. Simulation halted (is_running = False) before state clear. selected_facility cleared."</div>
+          </article>
+          <article class="finding">
+            <header>
+              <span class="badge badge-sev-low">Low</span>
+              <h3 class="finding-title">Tab 2 caching strategy specified as st.cache_data — incorrect mechanism</h3>
+              <span class="finding-location">§9, §12 R-01</span>
+            </header>
+            <div class="finding-note">R-01 mitigation says "offload graph computation to background thread via st.cache_data." st.cache_data is a memoisation decorator, not a threading mechanism. Background threads in Streamlit require threading.Thread or concurrent.futures, neither of which is thread-safe with st.session_state.</div>
+            <div class="finding-fix"><strong>Fix:</strong> "betweenness centrality and PageRank computed once per tick per network, cached in st.session_state.graph_cache[network_id][tick] (plain dict). Tab 2 mini-maps render from cache, not recomputed per rerun."</div>
+          </article>
+        </div>
+      </details>
+    </section>
+
+    <div class="mechanical">
+      <h3>Mechanical notes</h3>
+      <ul>
+        <li><strong>AI model count discrepancy:</strong> §7 header says "4 stubs" but enumerates B1, B2, M1, M2, M3, M4 (six items). Fix: "6 AI model stubs (4 active in v1 demo, 2 internal/deferred)."</li>
+        <li><strong>Glossary gap:</strong> "node2vec" (§7) absent from 26-term glossary (§13). Add definition.</li>
+        <li><strong>Broken cross-reference:</strong> "About panel" (§2) does not resolve to any element in §8.</li>
+        <li><strong>Broken cross-reference:</strong> "Config editor — read-only + download" (§8) implies a scope cut not listed in §1 Non-Goals.</li>
+        <li><strong>ID continuity:</strong> FR IDs absent (not broken, absent). SC-01–SC-08 and NET-A–NET-E contiguous. R-01–R-07 contiguous; R-08 slot consumed by kaleido finding.</li>
+        <li><strong>Assumptions Index:</strong> Does not exist. Three load-bearing unmarked assumptions identified (synthetic data clinical plausibility, demo hardware context, SHAP approximation adequacy).</li>
+        <li><strong>Tick count inconsistency:</strong> §10 visual QA checkpoints reference tick 25; SC-04, SC-05, SC-08 run to ticks 30 and 35. Add tick-30 and tick-35 QA checkpoints.</li>
+      </ul>
+    </div>
+
+    <footer class="report-footer">
+      <div class="meta">
+        <span>PRD: _bmad-output/planning-artifacts/Simulation PRD.md</span>
+        <span>Rubric: .claude/skills/bmad-prd/assets/prd-validation-checklist.md</span>
+        <span>Workspace: _bmad-output/planning-artifacts/prds/prd-DiagNet_Simul-2026-06-04/</span>
+        <span>Generated: 2026-06-04T00:00:00Z</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

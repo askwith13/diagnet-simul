@@ -1,0 +1,53 @@
+# SC-02 · Gradual Stockout · NET-B Balaghat · 25 ticks · Reactive
+name: "Gradual stockout"
+primary_network: NET-B
+max_ticks: 25
+affected_facilities: [TH-B, TL1-B]
+
+per_tick_deltas:
+  TH-B:
+    truenat_chips: -1.4
+    patients_queued: 0.8
+    bayesian_stockout_prob: 0.025
+    cascade_dropout_risk: 0.02
+
+shap_weights:
+  truenat_chips: 0.50
+  patients_queued: 0.20
+  bayesian_stockout_prob: 0.15
+  cascade_dropout_risk: 0.15
+
+reroutes:
+  - [MC1-B, TL2-B]
+
+alerts:
+  - tick: 5
+    type: warning
+    severity: medium
+    recipient: lab_supervisor
+    facility: TH-B
+    msg: "Truenat chips at TH-B: {truenat_chips:.0f} remaining — below warn threshold"
+  - tick: 12
+    type: critical
+    severity: critical
+    recipient: lab_supervisor
+    facility: TH-B
+    msg: "Truenat chips critical: {truenat_chips:.0f} remaining. Testing capacity at risk"
+  - tick: 16
+    type: dto_advisory
+    severity: high
+    recipient: dto
+    facility: TH-B
+    msg: "Emergency procurement required. TH-B chips exhausted in ~2 days. Stockout probability {bayesian_stockout_prob:.2f}"
+  - tick: 20
+    type: critical
+    severity: critical
+    recipient: dto
+    facility: TH-B
+    msg: "Cascade failure: TH-B testing suspended. {patients_queued:.0f} patients queued. Overflow routing activated"
+
+recommended_actions:
+  TH-B:
+    - "Place emergency Truenat chip order with district medical stores immediately"
+    - "Activate overflow routing — redirect TH-B patients to TL1-B and TL2-B"
+    - "Notify Programme Manager — campaign surge detected; request contingency stock"

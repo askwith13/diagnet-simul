@@ -1,0 +1,58 @@
+[
+  {
+    "tick": 3,
+    "facility_id": "DHC-E",
+    "network_id": "NET-E",
+    "alert_type": "warning",
+    "message": "Dual pressure at DHC-E: cartridges 89 (low) and queue 44 (rising)",
+    "shap_contributions": {
+      "cartridges": -1.6799999999999997,
+      "patients_queued": 1.6799999999999997,
+      "tat_hours": 0.22499999999999998,
+      "cascade_dropout_risk": 0.009000000000000001
+    },
+    "severity": "medium"
+  },
+  {
+    "tick": 8,
+    "facility_id": "DHC-E",
+    "network_id": "NET-E",
+    "alert_type": "critical",
+    "message": "Dual failure: cartridges critical (82) and queue critical (52 patients)",
+    "shap_contributions": {
+      "cartridges": -4.4799999999999995,
+      "patients_queued": 4.4799999999999995,
+      "tat_hours": 0.6,
+      "cascade_dropout_risk": 0.024
+    },
+    "severity": "critical"
+  },
+  {
+    "tick": 14,
+    "facility_id": "DHC-E",
+    "network_id": "NET-E",
+    "alert_type": "recommendation",
+    "message": "Optimal reroute: CHC3-E and CHC4-E to TL2-E. Estimated TAT improvement \u2014 current TAT 26h",
+    "shap_contributions": {
+      "cartridges": -7.839999999999999,
+      "patients_queued": 7.839999999999999,
+      "tat_hours": 1.05,
+      "cascade_dropout_risk": 0.042
+    },
+    "severity": "medium"
+  },
+  {
+    "tick": 22,
+    "facility_id": "DHC-E",
+    "network_id": "NET-E",
+    "alert_type": "dto_advisory",
+    "message": "Partial recovery: queue 75 (reducing), cartridges 63 (still critical)",
+    "shap_contributions": {
+      "cartridges": -12.319999999999999,
+      "patients_queued": 12.319999999999999,
+      "tat_hours": 1.65,
+      "cascade_dropout_risk": 0.066
+    },
+    "severity": "medium"
+  }
+]

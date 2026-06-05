@@ -1,0 +1,46 @@
+[
+  {
+    "tick": 5,
+    "facility_id": "DHC-A",
+    "network_id": "NET-A",
+    "alert_type": "recommendation",
+    "message": "Recovery interventions activated across all 5 networks. Queue: 50, risk: 0.40",
+    "shap_contributions": {
+      "cartridges": 2.25,
+      "patients_queued": -1.6000000000000003,
+      "tat_hours": -0.22499999999999998,
+      "cascade_dropout_risk": -0.03,
+      "bayesian_stockout_prob": -0.0225
+    },
+    "severity": "low"
+  },
+  {
+    "tick": 15,
+    "facility_id": "DHC-D",
+    "network_id": "NET-D",
+    "alert_type": "bayesian",
+    "message": "NET-D recovery progressing: cascade dropout risk 0.00 (falling). Queue: 17",
+    "shap_contributions": {
+      "truenat_chips": 4.050000000000001,
+      "patients_queued": -2.4000000000000004,
+      "tat_hours": -0.6749999999999999,
+      "cascade_dropout_risk": -0.09
+    },
+    "severity": "low"
+  },
+  {
+    "tick": 25,
+    "facility_id": "DHC-A",
+    "network_id": "NET-A",
+    "alert_type": "dto_advisory",
+    "message": "NET-A returned to green: queue 18, cartridges 83, risk 0.00",
+    "shap_contributions": {
+      "cartridges": 11.249999999999998,
+      "patients_queued": -8.000000000000002,
+      "tat_hours": -1.125,
+      "cascade_dropout_risk": -0.15,
+      "bayesian_stockout_prob": -0.11249999999999999
+    },
+    "severity": "low"
+  }
+]

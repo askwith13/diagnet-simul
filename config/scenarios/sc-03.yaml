@@ -1,0 +1,55 @@
+# SC-03 · Predicted Stockout (Bayesian) · NET-C Yavatmal · 25 ticks · Preventive
+name: "Predicted stockout (Bayesian)"
+primary_network: NET-C
+max_ticks: 25
+affected_facilities: [DHC-C]
+
+per_tick_deltas:
+  DHC-C:
+    cartridges: -1.6
+    bayesian_stockout_prob: 0.022
+    patients_queued: 0.6
+
+shap_weights:
+  cartridges: 0.60
+  bayesian_stockout_prob: 0.30
+  patients_queued: 0.10
+
+reroutes:
+  - [MC3-C, TL2-C]
+  - [MC4-C, TL2-C]
+
+alerts:
+  - tick: 6
+    type: bayesian
+    severity: high
+    recipient: dto
+    facility: DHC-C
+    msg: "Bayesian forecast: P(stockout 14d) = {bayesian_stockout_prob:.2f} at DHC-C. Cartridges: {cartridges:.0f} remaining"
+  - tick: 9
+    type: recommendation
+    severity: medium
+    recipient: dto
+    facility: DHC-C
+    msg: "Preventive reroute activated: MC3-C and MC4-C to TL2-C for 7 days. Cartridges: {cartridges:.0f}"
+  - tick: 18
+    type: bayesian
+    severity: low
+    recipient: dto
+    facility: DHC-C
+    msg: "Risk resolved: P(stockout 14d) = {bayesian_stockout_prob:.2f}. Reroute intervention effective"
+
+# After preventive reroute fires at tick 9, MC3-C and MC4-C divert to TL2-C.
+# DHC-C cartridge consumption drops sharply; Bayesian forecast resolves by tick 18.
+event_activation_tick: 9
+post_event_deltas:
+  DHC-C:
+    cartridges: -0.3          # slower drain — fewer patients reaching DHC-C directly
+    bayesian_stockout_prob: -0.025  # P(stockout) declining as consumption drops
+    patients_queued: -1.0     # queue easing as rerouted patients use TL2-C
+
+recommended_actions:
+  DHC-C:
+    - "Order cartridge resupply immediately — current stock {cartridges:.0f}, estimated runway 14 days"
+    - "Activate preventive reroute of MC3-C and MC4-C to TL2-C to conserve DHC-C cartridges"
+    - "Monitor daily consumption rate and update Bayesian forecast weekly"

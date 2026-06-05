@@ -1,0 +1,54 @@
+[
+  {
+    "tick": 4,
+    "facility_id": "DHC-A",
+    "network_id": "NET-A",
+    "alert_type": "critical",
+    "message": "DHC queue critical: 51 patients, TAT 21h (2x median)",
+    "shap_contributions": {
+      "patients_queued": 3.24,
+      "tat_hours": 0.84,
+      "cascade_dropout_risk": 0.032
+    },
+    "severity": "critical"
+  },
+  {
+    "tick": 7,
+    "facility_id": "DHC-A",
+    "network_id": "NET-A",
+    "alert_type": "recommendation",
+    "message": "Reroute MC2-A and CHC2-A to TL2-A. Estimated TAT relief: 14h. Cascade risk 0.41",
+    "shap_contributions": {
+      "patients_queued": 5.67,
+      "tat_hours": 1.47,
+      "cascade_dropout_risk": 0.056
+    },
+    "severity": "medium"
+  },
+  {
+    "tick": 10,
+    "facility_id": "DHC-A",
+    "network_id": "NET-A",
+    "alert_type": "critical",
+    "message": "Cascade dropout risk 0.56 \u2014 CHW follow-up activation required",
+    "shap_contributions": {
+      "patients_queued": 8.100000000000001,
+      "tat_hours": 2.1,
+      "cascade_dropout_risk": 0.08
+    },
+    "severity": "critical"
+  },
+  {
+    "tick": 14,
+    "facility_id": "DHC-A",
+    "network_id": "NET-A",
+    "alert_type": "dto_advisory",
+    "message": "Bottleneck persists. Recommend +2 technicians. Cartridge stock 120 \u2014 redistribute from TL3-A",
+    "shap_contributions": {
+      "patients_queued": 11.34,
+      "tat_hours": 2.94,
+      "cascade_dropout_risk": 0.112
+    },
+    "severity": "high"
+  }
+]

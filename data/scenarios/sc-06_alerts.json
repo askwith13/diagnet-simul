@@ -1,0 +1,44 @@
+[
+  {
+    "tick": 2,
+    "facility_id": "DHC-A",
+    "network_id": "NET-A",
+    "alert_type": "critical",
+    "message": "GeneXpert module failure at DHC-A. Active modules: 6. TAT rising: 22h",
+    "shap_contributions": {
+      "tat_hours": 0.72,
+      "patients_queued": 0.4,
+      "modules": -0.24,
+      "bayesian_stockout_prob": 0.0036
+    },
+    "severity": "critical"
+  },
+  {
+    "tick": 6,
+    "facility_id": "DHC-A",
+    "network_id": "NET-A",
+    "alert_type": "bayesian",
+    "message": "Anomaly detected: test-ordering pattern abnormal. Anomaly score elevated. TAT 26h",
+    "shap_contributions": {
+      "tat_hours": 2.16,
+      "patients_queued": 1.2000000000000002,
+      "modules": -0.72,
+      "bayesian_stockout_prob": 0.0108
+    },
+    "severity": "high"
+  },
+  {
+    "tick": 12,
+    "facility_id": "DHC-A",
+    "network_id": "NET-A",
+    "alert_type": "dto_advisory",
+    "message": "TAT 33h exceeds critical threshold. Engineer dispatch required. Queue: 55",
+    "shap_contributions": {
+      "tat_hours": 4.32,
+      "patients_queued": 2.4000000000000004,
+      "modules": -1.44,
+      "bayesian_stockout_prob": 0.0216
+    },
+    "severity": "high"
+  }
+]
