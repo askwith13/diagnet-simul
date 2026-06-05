@@ -175,7 +175,7 @@ def render_export_tab(
 
         fig = build_comparison_figure(df_a, df_b, metric, label_a, label_b)
         if fig.data:
-            st.plotly_chart(fig, use_container_width=True, key=f"compare_{sc_a}_{sc_b}_{metric}")
+            st.plotly_chart(fig, width="stretch", key=f"compare_{sc_a}_{sc_b}_{metric}")
         else:
             st.warning("Could not build comparison chart — check that both scenarios completed.")
 

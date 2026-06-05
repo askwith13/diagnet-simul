@@ -111,7 +111,7 @@ def render_network_tab(
         )
         clicked = st.plotly_chart(
             fig,
-            use_container_width=True,
+            width="stretch",
             key=f"net_map_{current_scenario}_{tick}",
             on_select="rerun",
             selection_mode="points",

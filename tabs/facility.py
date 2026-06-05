@@ -199,14 +199,14 @@ def render_facility_tab(
     for i, field in enumerate(chart_fields):
         with chart_cols[i % 2]:
             fig = build_time_series_figure(tick_df, field, selected_facility, tick)
-            st.plotly_chart(fig, use_container_width=True, key=f"ts_{field}_{selected_facility}")
+            st.plotly_chart(fig, width="stretch", key=f"ts_{field}_{selected_facility}")
 
     # SHAP waterfall
     recent_alert = get_most_recent_alert(alerts, selected_facility, tick)
     if recent_alert and recent_alert.shap_contributions:
         st.markdown("**SHAP Feature Contributions**")
         fig = build_shap_waterfall_figure(recent_alert.shap_contributions)
-        st.plotly_chart(fig, use_container_width=True, key=f"shap_{selected_facility}_{tick}")
+        st.plotly_chart(fig, width="stretch", key=f"shap_{selected_facility}_{tick}")
     else:
         st.caption("No alerts fired for this facility yet — SHAP waterfall will appear once an alert fires.")
 

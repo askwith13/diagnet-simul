@@ -198,18 +198,18 @@ def render_overview_tab(
             net_cache = graph_cache.get(net_id, {})
             layout = net_cache.get("layout", {})
             fig = build_mini_map(cur_tick_df, tick, net_id, layout)
-            st.plotly_chart(fig, use_container_width=True, key=f"mini_{net_id}_{tick}")
+            st.plotly_chart(fig, width="stretch", key=f"mini_{net_id}_{tick}")
 
     # ── Inter-network flow diagram + bottleneck heatmap ───────────────────────
     col_flow, col_heat = st.columns([1, 2])
 
     with col_flow:
         fig_flow = build_inter_network_figure(network_critical)
-        st.plotly_chart(fig_flow, use_container_width=True, key=f"inter_flow_{tick}")
+        st.plotly_chart(fig_flow, width="stretch", key=f"inter_flow_{tick}")
 
     with col_heat:
         fig_heat = build_bottleneck_heatmap(cur_tick_df)
-        st.plotly_chart(fig_heat, use_container_width=True, key=f"heatmap_{tick}")
+        st.plotly_chart(fig_heat, width="stretch", key=f"heatmap_{tick}")
 
     # ── Global alert feed ─────────────────────────────────────────────────────
     st.markdown("**Global Alert Feed**")
