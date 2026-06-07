@@ -25,19 +25,19 @@ alerts:
     severity: high
     recipient: dto
     facility: DHC-C
-    msg: "Bayesian forecast: P(stockout 14d) = {bayesian_stockout_prob:.2f} at DHC-C. Cartridges: {cartridges:.0f} remaining"
+    msg: "Order cartridges for DHC-C now: AI forecasts {bayesian_stockout_prob:.0%} probability of stockout within 14 days. Only {cartridges:.0f} cartridges remaining — intervene before shortage occurs."
   - tick: 9
     type: recommendation
     severity: medium
     recipient: dto
     facility: DHC-C
-    msg: "Preventive reroute activated: MC3-C and MC4-C to TL2-C for 7 days. Cartridges: {cartridges:.0f}"
+    msg: "Activate preventive reroute: divert MC3-C and MC4-C to TL2-C for 7 days. This conserves DHC-C cartridges ({cartridges:.0f} remaining) and reduces stockout risk proactively."
   - tick: 18
     type: bayesian
     severity: low
     recipient: dto
     facility: DHC-C
-    msg: "Risk resolved: P(stockout 14d) = {bayesian_stockout_prob:.2f}. Reroute intervention effective"
+    msg: "Reroute intervention successful — stockout risk now at {bayesian_stockout_prob:.0%}. Restore normal routing and monitor DHC-C cartridge consumption weekly going forward."
 
 # After preventive reroute fires at tick 9, MC3-C and MC4-C divert to TL2-C.
 # DHC-C cartridge consumption drops sharply; Bayesian forecast resolves by tick 18.

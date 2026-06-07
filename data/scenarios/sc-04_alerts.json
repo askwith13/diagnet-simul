@@ -4,7 +4,7 @@
     "facility_id": "DHC-D",
     "network_id": "NET-D",
     "alert_type": "critical",
-    "message": "DHC-D queue critical: 33 patients. Chips: 19 remaining",
+    "message": "Respond urgently: DHC-D has 33 patients queued with only 19 chips remaining. Begin overflow routing to NET-A and brief district DTO immediately.",
     "shap_contributions": {
       "patients_queued": 3.08,
       "truenat_chips": -1.8,
@@ -18,7 +18,7 @@
     "facility_id": "DHC-D",
     "network_id": "NET-D",
     "alert_type": "critical",
-    "message": "Machine failure at DHC-D. 2 machines active. Overflow routing to NET-A activated",
+    "message": "Machine failure at DHC-D \u2014 activate inter-network overflow to DHC-A now. Only 2 machines active. Dispatch biomedical engineer and notify NET-A coordinators.",
     "shap_contributions": {
       "patients_queued": 6.16,
       "truenat_chips": -3.6,
@@ -32,7 +32,7 @@
     "facility_id": "DHC-A",
     "network_id": "NET-A",
     "alert_type": "critical",
-    "message": "Inter-network overflow: 57 patients queued at DHC-A from NET-D cascade",
+    "message": "Prepare DHC-A for inter-network overflow surge: 57 patients arriving from NET-D cascade. Reallocate lab capacity and increase staff alert level.",
     "shap_contributions": {
       "patients_queued": 5.04,
       "tat_hours": 0.4800000000000001,
@@ -45,7 +45,7 @@
     "facility_id": "DHC-A",
     "network_id": "NET-A",
     "alert_type": "dto_advisory",
-    "message": "System-wide stress: DHC-A cascade risk 0.46. Emergency staffing brief required",
+    "message": "Convene emergency DTO briefing: system-wide cascade risk at 46%. Coordinate emergency staffing and CHW deployment across NET-A and NET-D to prevent further dropout.",
     "shap_contributions": {
       "patients_queued": 7.56,
       "tat_hours": 0.7200000000000002,

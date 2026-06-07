@@ -4,7 +4,7 @@
     "facility_id": "DHC-A",
     "network_id": "NET-A",
     "alert_type": "critical",
-    "message": "DHC queue critical: 51 patients, TAT 21h (2x median)",
+    "message": "Act now: DHC-A has 51 patients queued, TAT at 21h (2\u00d7 median). Escalate to lab supervisor and initiate rerouting immediately.",
     "shap_contributions": {
       "patients_queued": 3.24,
       "tat_hours": 0.84,
@@ -17,7 +17,7 @@
     "facility_id": "DHC-A",
     "network_id": "NET-A",
     "alert_type": "recommendation",
-    "message": "Reroute MC2-A and CHC2-A to TL2-A. Estimated TAT relief: 14h. Cascade risk 0.41",
+    "message": "Redirect MC2-A and CHC2-A referrals to TL2-A now. Expected TAT relief: 14h. Cascade dropout risk is 41% \u2014 act before dropout worsens.",
     "shap_contributions": {
       "patients_queued": 5.67,
       "tat_hours": 1.47,
@@ -30,7 +30,7 @@
     "facility_id": "DHC-A",
     "network_id": "NET-A",
     "alert_type": "critical",
-    "message": "Cascade dropout risk 0.56 \u2014 CHW follow-up activation required",
+    "message": "Activate CHW follow-up protocol: cascade dropout risk at 56%. Patients are at high risk of being lost to treatment \u2014 deploy CHW teams to Chandrapur catchment immediately.",
     "shap_contributions": {
       "patients_queued": 8.100000000000001,
       "tat_hours": 2.1,
@@ -43,7 +43,7 @@
     "facility_id": "DHC-A",
     "network_id": "NET-A",
     "alert_type": "dto_advisory",
-    "message": "Bottleneck persists. Recommend +2 technicians. Cartridge stock 120 \u2014 redistribute from TL3-A",
+    "message": "Request +2 technicians from district emergency pool. Redistribute 120 cartridges from TL3-A to DHC-A. Bottleneck will persist without additional staffing.",
     "shap_contributions": {
       "patients_queued": 11.34,
       "tat_hours": 2.94,

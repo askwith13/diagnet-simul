@@ -101,25 +101,25 @@ alerts:
     severity: low
     recipient: all_dtos
     facility: DHC-A
-    msg: "Recovery interventions activated across all 5 networks. Queue: {patients_queued:.0f}, risk: {cascade_dropout_risk:.2f}"
+    msg: "Confirm all 5 recovery interventions are active now. DHC-A queue: {patients_queued:.0f}, cascade risk: {cascade_dropout_risk:.0%}. Assign one coordinator per network and report status every 6 hours."
   - tick: 15
     type: bayesian
     severity: low
     recipient: programme_manager
     facility: DHC-D
-    msg: "NET-D recovery progressing: cascade dropout risk {cascade_dropout_risk:.2f} (falling). Queue: {patients_queued:.0f}"
+    msg: "NET-D recovery on track — maintain current interventions. Cascade dropout risk falling to {cascade_dropout_risk:.0%}, queue at {patients_queued:.0f}. Do not reduce CHW deployment until risk is below 25%."
   - tick: 25
     type: dto_advisory
     severity: low
     recipient: programme_manager
     facility: DHC-A
-    msg: "NET-A returned to green: queue {patients_queued:.0f}, cartridges {cartridges:.0f}, risk {cascade_dropout_risk:.2f}"
+    msg: "NET-A has returned to green status: queue {patients_queued:.0f}, cartridges {cartridges:.0f}, cascade risk {cascade_dropout_risk:.0%}. Initiate step-down protocol and document intervention timeline for DTO report."
   - tick: 35
     type: dto_advisory
     severity: low
     recipient: programme_manager
     facility: DHC-E
-    msg: "Full recovery complete across all networks. Final status: queue {patients_queued:.0f}, risk {cascade_dropout_risk:.2f}"
+    msg: "Full network recovery complete across all 5 networks: final queue {patients_queued:.0f}, cascade risk {cascade_dropout_risk:.0%}. Archive incident log and schedule post-incident review within 7 days."
 
 impact_metrics:
   - mean_composite_bottleneck_score
@@ -129,9 +129,9 @@ impact_metrics:
 recommended_actions:
   DHC-A:
     - "Sustain cartridge procurement cadence — stock {cartridges:.0f}, monitor daily consumption"
-    - "Maintain elevated CHW deployment until cascade risk {cascade_dropout_risk:.2f} falls below 0.20"
+    - "Maintain elevated CHW deployment until cascade risk {cascade_dropout_risk:.0%} falls below 0.20"
     - "Document intervention timeline for DTO report and cross-district learning"
   DHC-D:
     - "Machine repair verified — resume full testing capacity"
     - "Restore inter-network overflow routing to normal standby mode"
-    - "Deploy additional CHW teams to address elevated dropout risk {cascade_dropout_risk:.2f}"
+    - "Deploy additional CHW teams to address elevated dropout risk {cascade_dropout_risk:.0%}"

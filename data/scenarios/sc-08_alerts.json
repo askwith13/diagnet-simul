@@ -4,7 +4,7 @@
     "facility_id": "DHC-A",
     "network_id": "NET-A",
     "alert_type": "recommendation",
-    "message": "Recovery interventions activated across all 5 networks. Queue: 50, risk: 0.40",
+    "message": "Confirm all 5 recovery interventions are active now. DHC-A queue: 50, cascade risk: 40%. Assign one coordinator per network and report status every 6 hours.",
     "shap_contributions": {
       "cartridges": 2.25,
       "patients_queued": -1.6000000000000003,
@@ -19,7 +19,7 @@
     "facility_id": "DHC-D",
     "network_id": "NET-D",
     "alert_type": "bayesian",
-    "message": "NET-D recovery progressing: cascade dropout risk 0.00 (falling). Queue: 17",
+    "message": "NET-D recovery on track \u2014 maintain current interventions. Cascade dropout risk falling to 0%, queue at 17. Do not reduce CHW deployment until risk is below 25%.",
     "shap_contributions": {
       "truenat_chips": 4.050000000000001,
       "patients_queued": -2.4000000000000004,
@@ -33,7 +33,7 @@
     "facility_id": "DHC-A",
     "network_id": "NET-A",
     "alert_type": "dto_advisory",
-    "message": "NET-A returned to green: queue 18, cartridges 83, risk 0.00",
+    "message": "NET-A has returned to green status: queue 18, cartridges 83, cascade risk 0%. Initiate step-down protocol and document intervention timeline for DTO report.",
     "shap_contributions": {
       "cartridges": 11.249999999999998,
       "patients_queued": -8.000000000000002,

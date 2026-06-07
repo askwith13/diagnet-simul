@@ -4,7 +4,7 @@
     "facility_id": "DHC-C",
     "network_id": "NET-C",
     "alert_type": "bayesian",
-    "message": "Bayesian forecast: P(stockout 14d) = 0.26 at DHC-C. Cartridges: 74 remaining",
+    "message": "Order cartridges for DHC-C now: AI forecasts 26% probability of stockout within 14 days. Only 74 cartridges remaining \u2014 intervene before shortage occurs.",
     "shap_contributions": {
       "cartridges": -5.76,
       "patients_queued": 0.36,
@@ -17,7 +17,7 @@
     "facility_id": "DHC-C",
     "network_id": "NET-C",
     "alert_type": "recommendation",
-    "message": "Preventive reroute activated: MC3-C and MC4-C to TL2-C for 7 days. Cartridges: 70",
+    "message": "Activate preventive reroute: divert MC3-C and MC4-C to TL2-C for 7 days. This conserves DHC-C cartridges (70 remaining) and reduces stockout risk proactively.",
     "shap_contributions": {
       "cartridges": -8.64,
       "patients_queued": 0.54,
@@ -30,7 +30,7 @@
     "facility_id": "DHC-C",
     "network_id": "NET-C",
     "alert_type": "bayesian",
-    "message": "Risk resolved: P(stockout 14d) = 0.28. Reroute intervention effective",
+    "message": "Reroute intervention successful \u2014 stockout risk now at 28%. Restore normal routing and monitor DHC-C cartridge consumption weekly going forward.",
     "shap_contributions": {
       "cartridges": -17.28,
       "patients_queued": 1.08,

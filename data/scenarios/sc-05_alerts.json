@@ -4,7 +4,7 @@
     "facility_id": "DHC-E",
     "network_id": "NET-E",
     "alert_type": "warning",
-    "message": "Dual pressure at DHC-E: cartridges 89 (low) and queue 44 (rising)",
+    "message": "Monitor closely: DHC-E shows dual pressure \u2014 89 cartridges (low) and 44 patients queued (rising). Pre-position contingency cartridge stock now.",
     "shap_contributions": {
       "cartridges": -1.6799999999999997,
       "patients_queued": 1.6799999999999997,
@@ -18,7 +18,7 @@
     "facility_id": "DHC-E",
     "network_id": "NET-E",
     "alert_type": "critical",
-    "message": "Dual failure: cartridges critical (82) and queue critical (52 patients)",
+    "message": "Dual failure at DHC-E \u2014 act immediately: 82 cartridges critical and 52 patients queued. Place emergency stock order and activate reroute simultaneously.",
     "shap_contributions": {
       "cartridges": -4.4799999999999995,
       "patients_queued": 4.4799999999999995,
@@ -32,7 +32,7 @@
     "facility_id": "DHC-E",
     "network_id": "NET-E",
     "alert_type": "recommendation",
-    "message": "Optimal reroute: CHC3-E and CHC4-E to TL2-E. Estimated TAT improvement \u2014 current TAT 26h",
+    "message": "Reroute CHC3-E and CHC4-E to TL2-E now. Current TAT at 26h \u2014 this reroute will reduce hub pressure and improve turnaround time within 2 days.",
     "shap_contributions": {
       "cartridges": -7.839999999999999,
       "patients_queued": 7.839999999999999,
@@ -46,7 +46,7 @@
     "facility_id": "DHC-E",
     "network_id": "NET-E",
     "alert_type": "dto_advisory",
-    "message": "Partial recovery: queue 75 (reducing), cartridges 63 (still critical)",
+    "message": "Maintain sustained attention: queue reducing to 75 but cartridges still critical at 63. Confirm resupply ETA and keep reroute active until stock exceeds safe threshold.",
     "shap_contributions": {
       "cartridges": -12.319999999999999,
       "patients_queued": 12.319999999999999,

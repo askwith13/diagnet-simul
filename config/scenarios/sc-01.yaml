@@ -25,25 +25,25 @@ alerts:
     severity: critical
     recipient: lab_supervisor
     facility: DHC-A
-    msg: "DHC queue critical: {patients_queued:.0f} patients, TAT {tat_hours:.0f}h (2x median)"
+    msg: "Act now: DHC-A has {patients_queued:.0f} patients queued, TAT at {tat_hours:.0f}h (2× median). Escalate to lab supervisor and initiate rerouting immediately."
   - tick: 7
     type: recommendation
     severity: medium
     recipient: clinician
     facility: DHC-A
-    msg: "Reroute MC2-A and CHC2-A to TL2-A. Estimated TAT relief: 14h. Cascade risk {cascade_dropout_risk:.2f}"
+    msg: "Redirect MC2-A and CHC2-A referrals to TL2-A now. Expected TAT relief: 14h. Cascade dropout risk is {cascade_dropout_risk:.0%} — act before dropout worsens."
   - tick: 10
     type: critical
     severity: critical
     recipient: chw_coordinator
     facility: DHC-A
-    msg: "Cascade dropout risk {cascade_dropout_risk:.2f} — CHW follow-up activation required"
+    msg: "Activate CHW follow-up protocol: cascade dropout risk at {cascade_dropout_risk:.0%}. Patients are at high risk of being lost to treatment — deploy CHW teams to Chandrapur catchment immediately."
   - tick: 14
     type: dto_advisory
     severity: high
     recipient: dto
     facility: DHC-A
-    msg: "Bottleneck persists. Recommend +2 technicians. Cartridge stock {cartridges:.0f} — redistribute from TL3-A"
+    msg: "Request +2 technicians from district emergency pool. Redistribute {cartridges:.0f} cartridges from TL3-A to DHC-A. Bottleneck will persist without additional staffing."
 
 # After reroute recommendation fires at tick 7, queue pressure at DHC-A reduces
 # but cascade dropout risk continues rising (patients travelling further to TL2-A).

@@ -4,7 +4,7 @@
     "facility_id": "TH-B",
     "network_id": "NET-B",
     "alert_type": "bayesian",
-    "message": "Campaign surge detected: P(stockout 14d) = 0.72. Chips: 27. Queue: 34",
+    "message": "Pre-empt campaign shortage: AI model predicts 72% stockout probability within 14 days at TH-B. Only 27 chips with 34 in queue \u2014 procure buffer stock immediately.",
     "shap_contributions": {
       "truenat_chips": -1.8,
       "patients_queued": 1.2,
@@ -18,7 +18,7 @@
     "facility_id": "TH-B",
     "network_id": "NET-B",
     "alert_type": "recommendation",
-    "message": "Proactive redistribution recommended. Stockout probability 0.76. Transfer chips from TL2-B to TH-B",
+    "message": "Transfer Truenat chips from TL2-B to TH-B now: stockout probability is 76%. Proactive redistribution prevents testing suspension during campaign month.",
     "shap_contributions": {
       "truenat_chips": -3.6,
       "patients_queued": 2.4,
@@ -32,7 +32,7 @@
     "facility_id": "TH-B",
     "network_id": "NET-B",
     "alert_type": "bayesian",
-    "message": "Campaign surge managed: P(stockout 14d) = 0.72. Redistribution effective. Chips: 30",
+    "message": "Campaign surge contained: stockout risk now at 72%. Restore normal routing and request a 30% buffer stock from district stores for the remainder of campaign month.",
     "shap_contributions": {
       "truenat_chips": -6.75,
       "patients_queued": 4.5,

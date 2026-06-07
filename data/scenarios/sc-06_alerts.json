@@ -4,7 +4,7 @@
     "facility_id": "DHC-A",
     "network_id": "NET-A",
     "alert_type": "critical",
-    "message": "GeneXpert module failure at DHC-A. Active modules: 6. TAT rising: 22h",
+    "message": "GeneXpert module failure at DHC-A \u2014 dispatch biomedical engineer immediately. Only 6 modules active; TAT is already at 22h and will worsen without intervention.",
     "shap_contributions": {
       "tat_hours": 0.72,
       "patients_queued": 0.4,
@@ -18,7 +18,7 @@
     "facility_id": "DHC-A",
     "network_id": "NET-A",
     "alert_type": "bayesian",
-    "message": "Anomaly detected: test-ordering pattern abnormal. Anomaly score elevated. TAT 26h",
+    "message": "AI anomaly detected at DHC-A: test-ordering pattern is abnormal. Investigate secondary cause immediately \u2014 TAT is 26h. Do not assume machine failure alone explains this pattern.",
     "shap_contributions": {
       "tat_hours": 2.16,
       "patients_queued": 1.2000000000000002,
@@ -32,7 +32,7 @@
     "facility_id": "DHC-A",
     "network_id": "NET-A",
     "alert_type": "dto_advisory",
-    "message": "TAT 33h exceeds critical threshold. Engineer dispatch required. Queue: 55",
+    "message": "Escalate to DTO: TAT at 33h exceeds critical threshold. Confirm engineer ETA and redirect 55 queued patients to TL1-A and TL2-A now.",
     "shap_contributions": {
       "tat_hours": 4.32,
       "patients_queued": 2.4000000000000004,

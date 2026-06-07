@@ -27,25 +27,25 @@ alerts:
     severity: medium
     recipient: lab_supervisor
     facility: DHC-E
-    msg: "Dual pressure at DHC-E: cartridges {cartridges:.0f} (low) and queue {patients_queued:.0f} (rising)"
+    msg: "Monitor closely: DHC-E shows dual pressure — {cartridges:.0f} cartridges (low) and {patients_queued:.0f} patients queued (rising). Pre-position contingency cartridge stock now."
   - tick: 8
     type: critical
     severity: critical
     recipient: dto
     facility: DHC-E
-    msg: "Dual failure: cartridges critical ({cartridges:.0f}) and queue critical ({patients_queued:.0f} patients)"
+    msg: "Dual failure at DHC-E — act immediately: {cartridges:.0f} cartridges critical and {patients_queued:.0f} patients queued. Place emergency stock order and activate reroute simultaneously."
   - tick: 14
     type: recommendation
     severity: medium
     recipient: clinician
     facility: DHC-E
-    msg: "Optimal reroute: CHC3-E and CHC4-E to TL2-E. Estimated TAT improvement — current TAT {tat_hours:.0f}h"
+    msg: "Reroute CHC3-E and CHC4-E to TL2-E now. Current TAT at {tat_hours:.0f}h — this reroute will reduce hub pressure and improve turnaround time within 2 days."
   - tick: 22
     type: dto_advisory
     severity: medium
     recipient: dto
     facility: DHC-E
-    msg: "Partial recovery: queue {patients_queued:.0f} (reducing), cartridges {cartridges:.0f} (still critical)"
+    msg: "Maintain sustained attention: queue reducing to {patients_queued:.0f} but cartridges still critical at {cartridges:.0f}. Confirm resupply ETA and keep reroute active until stock exceeds safe threshold."
 
 recommended_actions:
   DHC-E:

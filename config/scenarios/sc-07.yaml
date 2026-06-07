@@ -26,19 +26,19 @@ alerts:
     severity: medium
     recipient: dto
     facility: TH-B
-    msg: "Campaign surge detected: P(stockout 14d) = {bayesian_stockout_prob:.2f}. Chips: {truenat_chips:.0f}. Queue: {patients_queued:.0f}"
+    msg: "Pre-empt campaign shortage: AI model predicts {bayesian_stockout_prob:.0%} stockout probability within 14 days at TH-B. Only {truenat_chips:.0f} chips with {patients_queued:.0f} in queue — procure buffer stock immediately."
   - tick: 8
     type: recommendation
     severity: medium
     recipient: dto
     facility: TH-B
-    msg: "Proactive redistribution recommended. Stockout probability {bayesian_stockout_prob:.2f}. Transfer chips from TL2-B to TH-B"
+    msg: "Transfer Truenat chips from TL2-B to TH-B now: stockout probability is {bayesian_stockout_prob:.0%}. Proactive redistribution prevents testing suspension during campaign month."
   - tick: 15
     type: bayesian
     severity: low
     recipient: dto
     facility: TH-B
-    msg: "Campaign surge managed: P(stockout 14d) = {bayesian_stockout_prob:.2f}. Redistribution effective. Chips: {truenat_chips:.0f}"
+    msg: "Campaign surge contained: stockout risk now at {bayesian_stockout_prob:.0%}. Restore normal routing and request a 30% buffer stock from district stores for the remainder of campaign month."
 
 # After proactive redistribution fires at tick 8, chips flow from TL2-B to TH-B.
 # Stockout probability declines and the hub recovers to green by tick 15.

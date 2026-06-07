@@ -26,25 +26,25 @@ alerts:
     severity: medium
     recipient: lab_supervisor
     facility: TH-B
-    msg: "Truenat chips at TH-B: {truenat_chips:.0f} remaining — below warn threshold"
+    msg: "Order Truenat chips for TH-B immediately: only {truenat_chips:.0f} remaining, below safe threshold. Typical lead time is 3–5 days — order now to avoid testing disruption."
   - tick: 12
     type: critical
     severity: critical
     recipient: lab_supervisor
     facility: TH-B
-    msg: "Truenat chips critical: {truenat_chips:.0f} remaining. Testing capacity at risk"
+    msg: "Place emergency chip order now: TH-B has only {truenat_chips:.0f} chips remaining. Testing capacity will be lost within 48h without resupply."
   - tick: 16
     type: dto_advisory
     severity: high
     recipient: dto
     facility: TH-B
-    msg: "Emergency procurement required. TH-B chips exhausted in ~2 days. Stockout probability {bayesian_stockout_prob:.2f}"
+    msg: "Escalate to DTO: TH-B chips will exhaust in ~2 days. Stockout probability is {bayesian_stockout_prob:.0%}. Activate overflow routing to TL1-B and TL2-B immediately."
   - tick: 20
     type: critical
     severity: critical
     recipient: dto
     facility: TH-B
-    msg: "Cascade failure: TH-B testing suspended. {patients_queued:.0f} patients queued. Overflow routing activated"
+    msg: "Testing at TH-B suspended — redirect all {patients_queued:.0f} queued patients to TL1-B and TL2-B now. Notify DTO and programme manager of cascade failure."
 
 recommended_actions:
   TH-B:

@@ -32,25 +32,25 @@ alerts:
     severity: critical
     recipient: lab_supervisor
     facility: DHC-D
-    msg: "DHC-D queue critical: {patients_queued:.0f} patients. Chips: {truenat_chips:.0f} remaining"
+    msg: "Respond urgently: DHC-D has {patients_queued:.0f} patients queued with only {truenat_chips:.0f} chips remaining. Begin overflow routing to NET-A and brief district DTO immediately."
   - tick: 8
     type: critical
     severity: critical
     recipient: dto
     facility: DHC-D
-    msg: "Machine failure at DHC-D. {machines} machines active. Overflow routing to NET-A activated"
+    msg: "Machine failure at DHC-D — activate inter-network overflow to DHC-A now. Only {machines} machines active. Dispatch biomedical engineer and notify NET-A coordinators."
   - tick: 12
     type: critical
     severity: critical
     recipient: dto
     facility: DHC-A
-    msg: "Inter-network overflow: {patients_queued:.0f} patients queued at DHC-A from NET-D cascade"
+    msg: "Prepare DHC-A for inter-network overflow surge: {patients_queued:.0f} patients arriving from NET-D cascade. Reallocate lab capacity and increase staff alert level."
   - tick: 18
     type: dto_advisory
     severity: high
     recipient: dto
     facility: DHC-A
-    msg: "System-wide stress: DHC-A cascade risk {cascade_dropout_risk:.2f}. Emergency staffing brief required"
+    msg: "Convene emergency DTO briefing: system-wide cascade risk at {cascade_dropout_risk:.0%}. Coordinate emergency staffing and CHW deployment across NET-A and NET-D to prevent further dropout."
 
 recommended_actions:
   DHC-D:
